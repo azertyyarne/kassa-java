@@ -21,14 +21,15 @@ public class Artikel {
         this.artikelcode = artikelcode;
     }
 
-
     public void setNaam(String naam) throws ModelException {
-        if (naam.equals(""))
-            throw new ModelException("Artikel moet een niet lege naam hebben");
+        if (naam == null || naam.trim().isEmpty())
+            throw new ModelException("Naam mag niet leeg zijn");
         this.naam = naam;
     }
 
     public void setArtikelgroep(String artikelgroep) {
+        if (artikelgroep == null || artikelgroep.trim().isEmpty())
+            throw new ModelException("Artikelgroep mag niet leeg zijn");
         this.artikelgroep = artikelgroep;
     }
 
