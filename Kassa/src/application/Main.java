@@ -12,7 +12,5 @@ public class Main extends Application {
 		KlantView klantView = new KlantView();
 	}
 	
-	public static void main(String[] args) {
-		launch(args);
-	}
+	public static void main(String[] args) { launch(args); }
 }
