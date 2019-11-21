@@ -1,6 +1,5 @@
-package ui;
+package view.panels;
 
-import domain.Movie;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
@@ -10,40 +9,41 @@ import javafx.scene.control.cell.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
-import domain.MovieCompany;
+import model.Company;
+import model.Product;
 
-public class MovieOverview extends VBox{	
-	private MovieCompany movieCompany ;
-    private TableView<Movie> table ;
+public class ProductOverview extends VBox {
+	private Company company;
+    private TableView<Product> table ;
            
-	public MovieOverview (MovieCompany movieCompany){
-		this.movieCompany = movieCompany;
+	public ProductOverview(Company movieCompany){
+		this.company = movieCompany;
 		this.setSpacing(10);
         this.setPadding(new Insets(10, 10, 10, 10));
        	Label lblHeading = new Label("Movie Inventory");        
         lblHeading.setFont(new Font("Arial", 20));
-        table = new TableView<Movie>();        
+        table = new TableView<Product>();        
         table.setItems(movieCompany.loadData()); 
         table.setRowFactory( tv -> {
-            TableRow<Movie> row = new TableRow<>();
+            TableRow<Product> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    Movie movie = row.getItem();
-                    String movieInfo= movie.getTitle()+" \nRecent price is "+ movie.getPrice()+" Euro: ";
-        			new MovieDetailView(MovieOverview.this,movieInfo,movie);	
+                    Product product = row.getItem();
+                    String movieInfo= product.getName()+" \nRecent price is "+ product.getPrice()+" Euro: ";
+        			new MovieDetailView(ProductOverview.this,movieInfo,product);
                 }
             });
             return row;
         });
-        TableColumn<Movie, String> colTitle = new TableColumn<Movie, String>("Title");
+        TableColumn<Product, String> colTitle = new TableColumn<>("Title");
         colTitle.setMinWidth(300);        
-        colTitle.setCellValueFactory(new PropertyValueFactory<Movie, String>("Title"));
-        TableColumn<Movie, Integer> colYear = new TableColumn<Movie, Integer>("Year");
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        TableColumn<Product, Integer> colYear = new TableColumn<>("Year");
         colYear.setMinWidth(100);
-        colYear.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("Year"));
-        TableColumn<Movie, Double> colPrice = new TableColumn<Movie, Double>("Price");
+        colYear.setCellValueFactory(new PropertyValueFactory<>("Year"));
+        TableColumn<Product, Double> colPrice = new TableColumn<>("Price");
         colPrice.setMinWidth(100);
-        colPrice.setCellValueFactory(new PropertyValueFactory<Movie, Double>("Price"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
         table.getColumns().addAll(colTitle, colYear, colPrice); 
         Button button = new Button("Add dummy film");
 		button.setOnAction(new AddDummyFilmHandler());
@@ -66,19 +66,19 @@ public class MovieOverview extends VBox{
     class AddDummyFilmHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
-			movieCompany.addDummyMovie();
-			TableViewSelectionModel <Movie> tsm = table.getSelectionModel();
-			tsm.select(movieCompany.getAantalMovies());
+			company.addDummyProduct();
+			TableViewSelectionModel <Product> tsm = table.getSelectionModel();
+			tsm.select(company.getAantalProducts());
 		}
 	}
     
     class UpdatePriceHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent event) {
-			TableViewSelectionModel <Movie> tsm = table.getSelectionModel();
-			Movie movie = tsm.getSelectedItem();
-			String movieInfo= movie.getTitle()+" \nRecent price is "+ movie.getPrice()+" Euro: ";
-			new MovieDetailView(MovieOverview.this,movieInfo,movie);		
+			TableViewSelectionModel <Product> tsm = table.getSelectionModel();
+			Product movie = tsm.getSelectedItem();
+			String movieInfo= movie.getName()+" \nRecent price is "+ movie.getPrice()+" Euro: ";
+			new MovieDetailView(ProductOverview.this,movieInfo,movie);
 		}
 	}    
 }

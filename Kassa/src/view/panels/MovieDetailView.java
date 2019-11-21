@@ -1,6 +1,5 @@
-package ui;
+package view.panels;
 
-import domain.Movie;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -10,15 +9,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.Product;
 
 public class MovieDetailView extends GridPane {
 	private Stage stage = new Stage();
-	MovieOverview movieOverview;
+	ProductOverview productOverview;
 	private Button btnOK, btnCancel;
 	private TextField priceField;	
 
-	public MovieDetailView(MovieOverview m, String movieInfo, Movie movie) {
-		this.movieOverview = m;
+	public MovieDetailView(ProductOverview m, String movieInfo, Product movie) {
+		this.productOverview = m;
 		stage.setTitle("Update price");
 		this.setPrefHeight(150);
 		this.setPrefWidth(500);
@@ -46,12 +46,12 @@ public class MovieDetailView extends GridPane {
 	        		movie.setPrice(Double.parseDouble(priceField.getText()));
 	        	}
 	        	catch (NumberFormatException ex){
-	        		movieOverview.displayErrorMessage("prijs mag niet leeg zijn en moet een getal zijn");
+	        		productOverview.displayErrorMessage("prijs mag niet leeg zijn en moet een getal zijn");
 	        	}
 	        	catch (IllegalArgumentException ex){
-	        		movieOverview.displayErrorMessage(ex.getMessage());
+	        		productOverview.displayErrorMessage(ex.getMessage());
 	        	}	        	
-	            movieOverview.refresh();
+	            productOverview.refresh();
 	            stage.close();
 	        }	        
 		});		
