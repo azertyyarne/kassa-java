@@ -3,11 +3,11 @@ package model;
 public class Artikel {
     private int artikelcode;
     private String naam;
-    private Artikelgroep artikelgroep;
-    private float prijs;
+    private String artikelgroep;
+    private double prijs;
     private int voorraad;
 
-    public Artikel(int artikelcode, String naam, Artikelgroep artikelgroep, float prijs, int voorraad) throws Exception {
+    public Artikel(int artikelcode, String naam, String artikelgroep, double prijs, int voorraad) {
         setArtikelcode(artikelcode);
         setNaam(naam);
         setArtikelgroep(artikelgroep);
@@ -15,29 +15,32 @@ public class Artikel {
         setVoorraad(voorraad);
     }
 
-    public void setArtikelcode(int artikelcode) throws Exception {
-        if (artikelcode <0)
-            throw new Exception("");
+    public void setArtikelcode(int artikelcode) throws ModelException {
+        if (artikelcode<0)
+            throw new ModelException("Artikel moet een positieve artikelcode hebben");
         this.artikelcode = artikelcode;
     }
 
-    public void setNaam(String naam) throws Exception {
+
+    public void setNaam(String naam) throws ModelException {
         if (naam.equals(""))
-            throw new Exception("Artikel moet een omschrijving hebben");
+            throw new ModelException("Artikel moet een niet lege naam hebben");
         this.naam = naam;
     }
 
-    public void setArtikelgroep(Artikelgroep artikelgroep) {
+    public void setArtikelgroep(String artikelgroep) {
         this.artikelgroep = artikelgroep;
     }
 
-    public void setPrijs(float prijs) throws Exception {
+    public void setPrijs(double prijs) throws ModelException {
         if (prijs<0)
-            throw new Exception("De prijs moet positief zijn");
+            throw new ModelException("De prijs moet positief zijn");
         this.prijs = prijs;
     }
 
-    public void setVoorraad(int voorraad) {
+    public void setVoorraad(int voorraad) throws ModelException {
+        if (voorraad<0)
+            throw new ModelException("Voorraad moet positief zijn");
         this.voorraad = voorraad;
     }
 }

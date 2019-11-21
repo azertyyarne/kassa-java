@@ -9,6 +9,6 @@ public class Company {
 
     public Company() throws Exception {
         data = FXCollections.observableArrayList(new ArrayList<Artikel>());
-        data.add(new Artikel(125871559, "Chicken nuggets", (float) 5.95));
+        data.add(new Artikel(125871559, "Chicken nuggets", "vlees", 5.95, 10));
     }
 }
