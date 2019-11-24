@@ -1,5 +1,6 @@
 package database;
 
+import excel.ExcelPlugin;
 import model.Product;
 
 import java.io.File;
@@ -17,7 +18,7 @@ public class ExcelLoadSaveStrategy implements Database {
     public ArrayList<Product> load() {
         ArrayList<Product> products = new ArrayList<>();
         try {
-            for (ArrayList<String> parameters : excelPlugin.read(new File("C:\\Users\\sibre\\OneDrive\\Documenten\\OOO\\26_Jacobs_Vandenplas_Vryghem_Kassa_OOO2019\\Kassa\\src\\bestanden\\artikel.xlsx"))){
+            for (ArrayList<String> parameters : excelPlugin.read(new File(filepath))){
                 int code = Integer.parseInt(parameters.get(0));
                 String name = parameters.get(1);
                 String group = parameters.get(2);

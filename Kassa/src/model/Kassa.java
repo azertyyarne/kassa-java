@@ -8,7 +8,7 @@ public class Kassa {
     private Database products;
 
     public Kassa() {
-        products = new ExcelLoadSaveStrategy("artikel.xlsx");
+        products = new ExcelLoadSaveStrategy("artikel.xls");
     }
 
     public List<Product> getProducts(){
