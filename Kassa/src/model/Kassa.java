@@ -22,7 +22,9 @@ public class Kassa {
         return tickets;
     }
 
-    public void addProduct(int fieldProductCode) {
-        tickets.get("klant").add(products.getProduct(fieldProductCode));
+    public void addProduct(int id) {
+        if (!tickets.containsKey("klant"))
+            tickets.put("klant", new ArrayList<>());
+        tickets.get("klant").add(products.getProduct(id));
     }
 }

@@ -8,10 +8,12 @@ import java.util.Map;
 public abstract class InMemoryDatabase implements Database {
 
     protected Map<Integer,Product> products = new HashMap<>();
-    
+
     @Override
     public Product getProduct(int id) {
-        return null;
+        if (products.get(id) == null)
+            throw new DbException("Dit product bestaat niet in de database");
+        return products.get(id);
     }
 
     @Override

@@ -4,14 +4,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Product;
 import view.panels.KassaOverviewPane;
 import view.panels.ProductOverviewPane;
-
-import java.util.List;
 
 public class KassaView {
 	private Stage stage = new Stage();
@@ -42,7 +37,11 @@ public class KassaView {
 		stage.show();		
 	}
 
-	public ProductOverviewPane getProductOverview(){
+	public ProductOverviewPane getProductOverviewPane(){
 		return productOverviewPane;
+	}
+
+	public KassaOverviewPane getKassaOverviewPane() {
+		return kassaOverviewPane;
 	}
 }

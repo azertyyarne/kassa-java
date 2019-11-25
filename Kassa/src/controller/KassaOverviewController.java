@@ -10,10 +10,11 @@ public class KassaOverviewController {
     public KassaOverviewController(Kassa model, KassaOverviewPane view){
         this.model = model;
         this.view = view;
-        addProduct();
+        view.setClick(event -> addProduct());
     }
 
     private void addProduct(){
         model.addProduct(Integer.parseInt(view.getFieldProductCode().getText()));
+        
     }
 }
