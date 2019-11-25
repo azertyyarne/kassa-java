@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.util.*;
 
 public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate {
+    private Map<Integer,Product> products = new HashMap<>();
     private String filepath = "src/bestanden/artikel.txt";
 
     public ArtikelTekstLoadSave() {

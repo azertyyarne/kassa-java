@@ -1,7 +1,9 @@
 package view.panels;
 
 import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,6 +40,9 @@ public class ProductOverviewPane extends GridPane {
 		colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
 		table.getColumns().addAll(colProductcode, colName, colProductgroup, colPrice, colStock);
 		this.add(table,0,1);
+		Button btn = new Button("refresh");
+		btn.setOnAction(event -> refresh());
+		this.add(btn, 0, 2);
 	}
 
 	public void refresh(){

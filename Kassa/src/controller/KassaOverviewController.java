@@ -14,7 +14,8 @@ public class KassaOverviewController {
     }
 
     private void addProduct(){
-        model.addProduct(Integer.parseInt(view.getFieldProductCode().getText()));
-        
+        int id = Integer.parseInt(view.getFieldProductCode().getText());
+        model.addProduct(id);
+        view.addBedrag(model.getProduct(id).getPrice());
     }
 }

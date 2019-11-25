@@ -6,16 +6,16 @@ import javafx.scene.control.TextField;
 import java.util.*;
 
 public class Kassa {
-    private Database products;
+    private List<Product> products;
     private Map<String, Collection<Product>> tickets;
 
     public Kassa() {
-        products = DatabaseFactory.getDatabase("Artikels excelbestand");
+        products = DatabaseFactory.getDatabase("Artikels excelbestand").load();
         tickets = new HashMap<>();
     }
 
     public List<Product> getProducts(){
-        return products.load();
+        return products;
     }
 
     public Map<String, Collection<Product>> getTickets() {
@@ -25,6 +25,14 @@ public class Kassa {
     public void addProduct(int id) {
         if (!tickets.containsKey("klant"))
             tickets.put("klant", new ArrayList<>());
-        tickets.get("klant").add(products.getProduct(id));
+        tickets.get("klant").add(getProduct(id));
+    }
+
+    public Product getProduct(int id) {
+        for (Product product : getProducts()) {
+            if (product.getCode() == id)
+                return product;
+        }
+        throw new ModelException("Het product met code: "+id+" bestaat niet in de database");
     }
 }
