@@ -1,7 +1,5 @@
 package view.panels;
 
-import database.ArtikelTekstLoadSave;
-import database.LoadSave;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -23,8 +21,6 @@ public class ProductOverviewPane extends GridPane {
 		this.add(new Label("Products:"), 0, 0, 1, 1);
 
 		table = new TableView<>();
-		LoadSave test = new ArtikelTekstLoadSave("artikel.txt");
-		table.setItems(FXCollections.observableArrayList(test.load()));
 		TableColumn<Product, Integer> colProductcode = new TableColumn<>("Product code");
 		colProductcode.setMinWidth(100);
 		colProductcode.setCellValueFactory(new PropertyValueFactory<>("code"));

@@ -8,7 +8,7 @@ public class Kassa {
     private Database products;
 
     public Kassa() {
-        products = new ExcelLoadSaveStrategy("artikel.xls");
+        products = DatabaseFactory.getDatabase("Artikels excelbestand");
     }
 
     public List<Product> getProducts(){

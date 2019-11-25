@@ -1,14 +1,14 @@
-package database;
+package database.template;
+
+import database.DbException;
 
 import java.io.File;
 import java.util.*;
 
 public abstract class TekstLoadSaveTemplate {
-    protected String filepath;
 
-    protected final void readFromFile(String filename){
+    protected final void readFromFile(String filepath){
         try{
-            setFilepath(filename);
             File file = new File(filepath);
             Scanner sc = new Scanner(file);
             while(sc.hasNextLine()){
@@ -20,10 +20,6 @@ public abstract class TekstLoadSaveTemplate {
         catch (Exception e){
             throw new DbException(e.getMessage());
         }
-    }
-
-    protected void setFilepath(String filename){
-        filepath = "src/bestanden/" + filename;
     }
 
     protected List<String> processLine(String line){

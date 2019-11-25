@@ -1,5 +1,8 @@
-package database;
+package database.template;
 
+import database.Database;
+import database.DbException;
+import database.template.TekstLoadSaveTemplate;
 import model.Product;
 
 import java.io.File;
@@ -8,9 +11,10 @@ import java.util.*;
 
 public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate implements Database {
     private Map<Integer,Product> products = new HashMap<>();
+    private String filepath = "src/bestanden/artikel.txt";
 
-    public ArtikelTekstLoadSave(String filename) {
-        readFromFile(filename);
+    public ArtikelTekstLoadSave() {
+        readFromFile(filepath);
     }
 
     @Override

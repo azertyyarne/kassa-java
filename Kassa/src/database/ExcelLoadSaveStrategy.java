@@ -7,12 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class ExcelLoadSaveStrategy implements Database {
-    private String filepath;
+    private String filepath = "src/bestanden/artikel.xls";
     private ExcelPlugin excelPlugin = new ExcelPlugin();
-
-    public ExcelLoadSaveStrategy(String filename){
-        filepath = "src/bestanden/" + filename;
-    }
 
     @Override
     public ArrayList<Product> load() {
@@ -36,6 +32,21 @@ public class ExcelLoadSaveStrategy implements Database {
 
     @Override
     public void save(ArrayList<Product> products) {
-
+        ArrayList<ArrayList<String>> args = new ArrayList<>();
+        for (Product product : products){
+            ArrayList<String> parameters = new ArrayList<>();
+            parameters.add(String.valueOf(product.getCode()));
+            parameters.add(product.getName());
+            parameters.add(product.getGroup());
+            parameters.add(String.valueOf(product.getPrice()));
+            parameters.add(String.valueOf(product.getStock()));
+            args.add(parameters);
+        }
+        try{
+            excelPlugin.write(new File(filepath),args);
+        }
+        catch (Exception e){
+            throw new DbException(e.getMessage());
+        }
     }
 }
