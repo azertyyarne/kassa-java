@@ -1,16 +1,12 @@
 package database.template;
 
-import database.Database;
 import database.DbException;
-import database.template.TekstLoadSaveTemplate;
 import model.Product;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.util.*;
 
-public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate implements Database {
-    private Map<Integer,Product> products = new HashMap<>();
+public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate {
     private String filepath = "src/bestanden/artikel.txt";
 
     public ArtikelTekstLoadSave() {

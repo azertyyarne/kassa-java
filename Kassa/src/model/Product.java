@@ -16,7 +16,7 @@ public class Product {
     }
 
     private void setCode(int code) throws ModelException {
-        if (code <0)
+        if (code < 0)
             throw new ModelException("Artikel moet een positieve artikelcode hebben");
         this.code = code;
     }
@@ -34,13 +34,13 @@ public class Product {
     }
 
     private void setPrice(double price) throws ModelException {
-        if (price <0)
+        if (price < 0)
             throw new ModelException("De prijs moet positief zijn");
         this.price = price;
     }
 
     private void setStock(int stock) throws ModelException {
-        if (stock <0)
+        if (stock < 0)
             throw new ModelException("Voorraad moet positief zijn");
         this.stock = stock;
     }

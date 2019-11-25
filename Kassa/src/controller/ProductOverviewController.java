@@ -3,11 +3,11 @@ package controller;
 import model.Kassa;
 import view.panels.ProductOverviewPane;
 
-public class OverviewController {
+public class ProductOverviewController {
     private Kassa model;
     private ProductOverviewPane view;
 
-    public OverviewController(Kassa model, ProductOverviewPane view){
+    public ProductOverviewController(Kassa model, ProductOverviewPane view){
         this.model = model;
         this.view = view;
         setProducts();

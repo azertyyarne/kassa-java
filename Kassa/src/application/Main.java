@@ -1,6 +1,6 @@
 package application;
 	
-import controller.OverviewController;
+import controller.ProductOverviewController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Kassa;
@@ -16,7 +16,7 @@ public class Main extends Application {
 		KassaView kassaView = new KassaView();
 		KlantView klantView = new KlantView();
 
-		OverviewController overviewController = new OverviewController(kassa,kassaView.getProductOverview());
+		ProductOverviewController productOverviewController = new ProductOverviewController(kassa,kassaView.getProductOverview());
 	}
 	
 	public static void main(String[] args) { launch(args); }

@@ -2,11 +2,10 @@ package database;
 
 import excel.ExcelPlugin;
 import model.Product;
-
 import java.io.File;
 import java.util.ArrayList;
 
-public class ExcelLoadSaveStrategy implements Database {
+public class ExcelLoadSaveStrategy extends InMemoryDatabase {
     private String filepath = "src/bestanden/artikel.xls";
     private ExcelPlugin excelPlugin = new ExcelPlugin();
 

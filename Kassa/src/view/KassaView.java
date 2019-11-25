@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Product;
+import view.panels.KassaOverviewPane;
 import view.panels.ProductOverviewPane;
 
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.List;
 public class KassaView {
 	private Stage stage = new Stage();
 	private ProductOverviewPane productOverviewPane = new ProductOverviewPane();
-		
+	private KassaOverviewPane kassaOverviewPane = new KassaOverviewPane();
+
 	public KassaView(){			
 		stage.setTitle("KASSA VIEW");
 		stage.setResizable(false);		
@@ -24,7 +26,7 @@ public class KassaView {
 		Group root = new Group();
 		Scene scene = new Scene(root, 750, 500);
 		TabPane tabPane = new TabPane();
-		Tab kassaTab = new Tab("Kassa");
+		Tab kassaTab = new Tab("Kassa", kassaOverviewPane);
 		Tab artikelTab = new Tab("Artikelen", productOverviewPane);
 		Tab instellingTab = new Tab("Instellingen");// , pane van bepaalde instellingen invoegen achter komma
 		Tab logTab = new Tab("Log");// , pane van bepaalde tabs invoegen achter komma

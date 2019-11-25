@@ -1,11 +1,12 @@
 package database.template;
 
 import database.DbException;
+import database.InMemoryDatabase;
 
 import java.io.File;
 import java.util.*;
 
-public abstract class TekstLoadSaveTemplate {
+public abstract class TekstLoadSaveTemplate extends InMemoryDatabase {
 
     protected final void readFromFile(String filepath){
         try{
