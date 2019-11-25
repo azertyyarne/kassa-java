@@ -3,6 +3,7 @@ package model;
 import database.*;
 import javafx.scene.control.TextField;
 
+import javax.swing.*;
 import java.util.*;
 
 public class Kassa {
@@ -33,6 +34,8 @@ public class Kassa {
             if (product.getCode() == id)
                 return product;
         }
+        //kweet da dit niet mag ma kweet nog ni hoe ge da moet fixen, kheb geprobeerd om in de main Domainexceeption te catch ma da werkt ni
+        JOptionPane.showMessageDialog(null,"Het product met code: "+id+" bestaat niet in de database", "Verkeerde code", JOptionPane.ERROR_MESSAGE);
         throw new ModelException("Het product met code: "+id+" bestaat niet in de database");
     }
 }
