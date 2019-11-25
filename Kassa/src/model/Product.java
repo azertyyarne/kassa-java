@@ -6,6 +6,7 @@ public class Product {
     private String group;
     private double price;
     private int stock;
+    private int quantity;
 
     public Product(int code, String name, String group, double price, int stock) {
         setCode(code);
@@ -13,6 +14,7 @@ public class Product {
         setGroup(group);
         setPrice(price);
         setStock(stock);
+        setQuantity(0);
     }
 
     private void setCode(int code) throws ModelException {
@@ -45,6 +47,12 @@ public class Product {
         this.stock = stock;
     }
 
+    public void setQuantity(int quantity) {
+        if (this.quantity+quantity < 0)
+            throw new ModelException("Hoeveelheid moet positief zijn");
+        this.quantity = quantity;
+    }
+
     public int getCode() {
         return code;
     }
@@ -63,5 +71,9 @@ public class Product {
 
     public int getStock() {
         return stock;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }
