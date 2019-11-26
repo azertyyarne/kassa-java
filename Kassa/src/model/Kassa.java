@@ -39,12 +39,12 @@ public class Kassa {
     public void addProduct(Product product) {
         if (!tickets.containsKey("klant"))
             tickets.put("klant", new ArrayList<>());
-        if (product.getStock() > 0)
-            throw new ModelException("Stock is leeg");
+        /*if (product.getStock() > 0)
+            throw new ModelException("Stock is leeg");*/
         if (!tickets.get("klant").contains(product))
             tickets.get("klant").add(product);
         product.setQuantity(product.getQuantity()+1);
-        product.setStock(product.getStock()-1);
+        /*product.setStock(product.getStock()-1);*/
     }
 
     private boolean hasId(int id) {
@@ -57,11 +57,11 @@ public class Kassa {
     public void removeProduct(Product product) {
         if (!tickets.containsKey("klant"))
             throw new ModelException("De gegeven klant bestaat niet");
-        if (!tickets.get("klant").contains(product) || (product.getQuantity()-1) < 0)
+        if (!tickets.get("klant").contains(product) /*|| (product.getQuantity()-1) < 0*/)
             throw new ModelException("Niet aanwezig in winkelmand");
         if (product.getQuantity() == 1)
             tickets.get("klant").remove(product);
         product.setQuantity(product.getQuantity()-1);
-        product.setStock(product.getStock()+1);
+        /*product.setStock(product.getStock()+1);*/
     }
 }
