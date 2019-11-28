@@ -5,8 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.util.Set;
-
 public class KassaOverviewPane extends GridPane {
     protected Label labelProductCode;
     protected Label labelTotaalbedrag;

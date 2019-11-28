@@ -1,8 +1,6 @@
 package model;
 
 import database.*;
-import javafx.scene.control.TextField;
-
 import javax.swing.*;
 import java.util.*;
 

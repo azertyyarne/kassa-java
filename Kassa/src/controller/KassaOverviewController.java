@@ -1,8 +1,6 @@
 package controller;
 
-import model.Kassa;
-import model.ModelException;
-import model.Product;
+import model.*;
 import view.panels.KassaOverviewPane;
 
 public class KassaOverviewController {

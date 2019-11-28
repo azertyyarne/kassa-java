@@ -1,6 +1,5 @@
 package view.panels;
 
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -8,8 +7,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import model.Product;
-
-import java.util.List;
 
 public class KlantOverviewPane extends GridPane {
 

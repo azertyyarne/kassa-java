@@ -2,7 +2,6 @@ package database.template;
 
 import database.DbException;
 import database.InMemoryDatabase;
-
 import java.io.File;
 import java.util.*;
 
