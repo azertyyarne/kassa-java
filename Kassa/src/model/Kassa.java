@@ -62,4 +62,13 @@ public class Kassa {
         product.setQuantity(product.getQuantity()-1);
         /*product.setStock(product.getStock()+1);*/
     }
+
+    public Collection<Product> getTicketProducts(String klant)  /*misschien nog exception toevoegen*/
+    {
+        if(tickets.containsKey(klant)){
+        return tickets.get(klant);
+        }
+        else
+            return null;
+    }
 }
