@@ -1,26 +1,33 @@
 package database.template;
 
+import database.Database;
 import database.DbException;
-import database.InMemoryDatabase;
+
 import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 
-public abstract class TekstLoadSaveTemplate extends InMemoryDatabase {
+public abstract class TekstLoadSaveTemplate implements Database {
 
-    protected final void readFromFile(String filepath){
+    @Override
+    public final ArrayList load(){
+        ArrayList result = new ArrayList();
         try{
-            File file = new File(filepath);
+            File file = new File(getFilepath());
             Scanner sc = new Scanner(file);
             while(sc.hasNextLine()){
                 List<String> parameters = processLine(sc.nextLine());
-                addObject(parameters);
+                result.add(getObject(parameters));
             }
             sc.close();
         }
         catch (Exception e){
             throw new DbException(e.getMessage());
         }
+        return result;
     }
+
+    protected abstract String getFilepath();
 
     protected List<String> processLine(String line){
         List<String> parameters = new ArrayList<>();
@@ -32,5 +39,22 @@ public abstract class TekstLoadSaveTemplate extends InMemoryDatabase {
         return parameters;
     }
 
-    protected abstract void addObject(List<String> parameters);
+    protected abstract Object getObject(List<String> parameters);
+
+    @Override
+    public final void save(ArrayList objects){
+        try{
+            File file = new File(getFilepath());
+            FileWriter fw = new FileWriter(file);
+            for (Object o : objects){
+                fw.write(getString(o) + "\n");
+            }
+            fw.close();
+        }
+        catch (Exception e){
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    protected abstract String getString(Object o);
 }

@@ -7,11 +7,13 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import view.panels.KassaOverviewPane;
 import view.panels.ProductOverviewPane;
+import view.panels.SettingsOverviewPane;
 
 public class KassaView {
 	private Stage stage = new Stage();
-	private ProductOverviewPane productOverviewPane = new ProductOverviewPane();
 	private KassaOverviewPane kassaOverviewPane = new KassaOverviewPane();
+	private ProductOverviewPane productOverviewPane = new ProductOverviewPane();
+	private SettingsOverviewPane settingsOverviewPane = new SettingsOverviewPane();
 
 	public KassaView(){			
 		stage.setTitle("KASSA VIEW");
@@ -23,7 +25,7 @@ public class KassaView {
 		TabPane tabPane = new TabPane();
 		Tab kassaTab = new Tab("Kassa", kassaOverviewPane);
 		Tab artikelTab = new Tab("Artikelen", productOverviewPane);
-		Tab instellingTab = new Tab("Instellingen");// , pane van bepaalde instellingen invoegen achter komma
+		Tab instellingTab = new Tab("Instellingen",settingsOverviewPane);// , pane van bepaalde instellingen invoegen achter komma
 		Tab logTab = new Tab("Log");// , pane van bepaalde tabs invoegen achter komma
 		tabPane.getTabs().add(kassaTab);
 		tabPane.getTabs().add(artikelTab);
@@ -37,11 +39,15 @@ public class KassaView {
 		stage.show();		
 	}
 
+	public KassaOverviewPane getKassaOverviewPane() {
+		return kassaOverviewPane;
+	}
+
 	public ProductOverviewPane getProductOverviewPane(){
 		return productOverviewPane;
 	}
 
-	public KassaOverviewPane getKassaOverviewPane() {
-		return kassaOverviewPane;
+	public SettingsOverviewPane getSettingsOverviewPane() {
+		return settingsOverviewPane;
 	}
 }

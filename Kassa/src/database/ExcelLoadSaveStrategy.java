@@ -5,13 +5,13 @@ import model.Product;
 import java.io.File;
 import java.util.ArrayList;
 
-public class ExcelLoadSaveStrategy extends InMemoryDatabase {
+public class ExcelLoadSaveStrategy implements Database {
     private String filepath = "src/bestanden/artikel.xls";
     private ExcelPlugin excelPlugin = new ExcelPlugin();
 
     @Override
-    public ArrayList<Product> load() {
-        ArrayList<Product> products = new ArrayList<>();
+    public ArrayList load() {
+        ArrayList<Product> products = new ArrayList<Product>();
         try {
             for (ArrayList<String> parameters : excelPlugin.read(new File(filepath))){
                 int code = Integer.parseInt(parameters.get(0));
@@ -30,8 +30,9 @@ public class ExcelLoadSaveStrategy extends InMemoryDatabase {
     }
 
     @Override
-    public void save(ArrayList<Product> products) {
+    public void save(ArrayList objects) {
         ArrayList<ArrayList<String>> args = new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<Product>(objects);
         for (Product product : products){
             ArrayList<String> parameters = new ArrayList<>();
             parameters.add(String.valueOf(product.getCode()));

@@ -1,7 +1,20 @@
-package database;
+package database.factory;
 
-public class DatabaseFactory {
-    public static Database getDatabase(String description){
+import database.Database;
+import database.DbException;
+
+public class Factory {
+    private static Factory factory = new Factory();
+
+    private Factory(){
+
+    }
+
+    public static Factory getInstance(){
+        return factory;
+    }
+
+    public Database getDatabase(String description){
         DatabaseEnum databaseEnum = DatabaseEnum.getDatabaseEnum(description);
         String className = databaseEnum.getClassName();
         Database database = null;

@@ -1,11 +1,13 @@
-package database;
+package database.factory;
+
+import database.DbException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public enum DatabaseEnum {
-    ARTIKELTEKST("Artikels tekstbestand","database.template.ArtikelTekstLoadSave"),
-    ARTIKELEXCEL("Artikels excelbestand","database.ExcelLoadSaveStrategy");
+    ARTIKELTEKST("ArtikelsTekstbestand","database.template.ArtikelTekstLoadSave"),
+    ARTIKELEXCEL("ArtikelsExcelbestand","database.ExcelLoadSaveStrategy");
 
     private final String description,className;
 
@@ -14,7 +16,7 @@ public enum DatabaseEnum {
         this.className = className;
     }
 
-    public List<String> getDescriptions(){
+    public static List<String> getDescriptions(){
         List<String> descriptions = new ArrayList<>();
         for (DatabaseEnum databaseEnum : DatabaseEnum.values()){
             descriptions.add(databaseEnum.description);

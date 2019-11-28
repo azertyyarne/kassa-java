@@ -1,12 +1,13 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 public class Product {
     private int code;
     private String name;
     private String group;
     private double price;
     private int stock;
-    private int quantity;
 
     public Product(int code, String name, String group, double price, int stock) {
         setCode(code);
@@ -14,7 +15,6 @@ public class Product {
         setGroup(group);
         setPrice(price);
         setStock(stock);
-        setQuantity(0);
     }
 
     private void setCode(int code) throws ModelException {
@@ -41,14 +41,10 @@ public class Product {
         this.price = price;
     }
 
-    public void setStock(int stock) {
+    public void setStock(int stock) throws ModelException {
+        if (stock < 0)
+            throw new ModelException("Voorraad moet positief zijn");
         this.stock = stock;
-    }
-
-    public void setQuantity(int quantity) {
-        if (this.quantity+quantity < 0)
-            throw new ModelException("Hoeveelheid moet positief zijn");
-        this.quantity = quantity;
     }
 
     public int getCode() {
@@ -71,7 +67,24 @@ public class Product {
         return stock;
     }
 
-    public int getQuantity() {
-        return quantity;
+    @Override
+    public boolean equals(Object o){
+        if (o instanceof Product){
+            return ((Product) o).getCode() == this.code;
+        }
+        return false;
+    }
+
+    public void moveToStock(){
+        setStock(stock + 1);
+    }
+
+    public void getFromStock(){
+        try{
+            setStock(stock - 1);
+        }
+        catch (ModelException e){
+            throw new ModelException("Van product " + code + " zijn er geen meer in");
+        }
     }
 }

@@ -1,74 +1,81 @@
 package model;
 
-import database.*;
-import javax.swing.*;
+import database.Database;
+import database.factory.Factory;
+
 import java.util.*;
 
-public class Kassa {
-    private List<Product> products;
-    private Map<String, Collection<Product>> tickets;
+public class Kassa implements Observable {
+    private Database database;
+    private Map<Integer,Product> products = new HashMap<>();
+    private ShoppingCart shoppingCart = new ShoppingCart();
+    private List<Observer> observers = new ArrayList<>();
 
-    public Kassa() {
-        products = DatabaseFactory.getDatabase("Artikels excelbestand").load();
-        tickets = new HashMap<>();
+    public void setDatabase(String database){
+        this.database = Factory.getInstance().getDatabase(database);
     }
 
-    public List<Product> getProducts(){
-        return products;
+    public Database getDatabase() {
+        return database;
     }
 
-    public Map<String, Collection<Product>> getTickets() {
-        return tickets;
-    }
-
-    public Product getProduct(int id) {
-        if (!hasId(id)) {
-            //kweet da dit niet mag ma kweet nog ni hoe ge da moet fixen, kheb geprobeerd om in de main Domainexceeption te catch ma da werkt ni
-            JOptionPane.showMessageDialog(null, "Het product met code: " + id + " is niet aanwezig in de database", "Verkeerde code", JOptionPane.ERROR_MESSAGE);
-            throw new ModelException("Het product met code: " + id + " is niet aanwezig in de database");
+    public void loadProducts(){
+        List<Product> productsList = database.load();
+        for (Product product : productsList){
+            products.put(product.getCode(),product);
         }
-        for (Product product : getProducts()) {
-            if (product.getCode() == id)
-                return product;
+    }
+
+    public void saveProducts(){
+        database.save(new ArrayList<>(products.values()));
+    }
+
+    public Collection<Product> getProducts(){
+        return products.values();
+    }
+
+    public void addObserver(Observer observer){
+        observers.add(observer);
+    }
+
+    public Collection<Product> getAllProductsShoppingCart() {
+        return shoppingCart.getAllProducts();
+    }
+
+    public Collection<Product> getProductsShoppingCart(){
+        return shoppingCart.getProducts();
+    }
+
+    public int getQuantityProductShoppingCart(Product product){
+        return shoppingCart.getQuantity(product);
+    }
+
+    public double getTotalPriceShoppingCart(){
+        return shoppingCart.getTotalPrice();
+    }
+
+    public void addProductShoppingCart(int code){
+        Product product = getProduct(code);
+        shoppingCart.add(product);
+        updateObservers();
+    }
+
+    public void deleteProductShoppingCart(Product product){
+        shoppingCart.delete(product);
+        updateObservers();
+    }
+
+    public Product getProduct(int code){
+        if (!products.containsKey(code)){
+            throw new ModelException("Niet bestaande code voor " + code);
         }
-        throw new ModelException("Het product met code: " + id + " is niet aanwezig in de winkelkar");
+        return products.get(code);
     }
 
-    public void addProduct(Product product) {
-        if (!tickets.containsKey("klant"))
-            tickets.put("klant", new ArrayList<>());
-        /*if (product.getStock() > 0)
-            throw new ModelException("Stock is leeg");*/
-        if (!tickets.get("klant").contains(product))
-            tickets.get("klant").add(product);
-        product.setQuantity(product.getQuantity()+1);
-        /*product.setStock(product.getStock()-1);*/
-    }
-
-    private boolean hasId(int id) {
-        for (Product product: getProducts())
-            if (product.getCode() == id)
-                return true;
-        return false;
-    }
-
-    public void removeProduct(Product product) {
-        if (!tickets.containsKey("klant"))
-            throw new ModelException("De gegeven klant bestaat niet");
-        if (!tickets.get("klant").contains(product) /*|| (product.getQuantity()-1) < 0*/)
-            throw new ModelException("Niet aanwezig in winkelmand");
-        if (product.getQuantity() == 1)
-            tickets.get("klant").remove(product);
-        product.setQuantity(product.getQuantity()-1);
-        /*product.setStock(product.getStock()+1);*/
-    }
-
-    public Collection<Product> getTicketProducts(String klant)  /*misschien nog exception toevoegen*/
-    {
-        if(tickets.containsKey(klant)){
-        return tickets.get(klant);
+    @Override
+    public void updateObservers() {
+        for (Observer observer : observers){
+            observer.update();
         }
-        else
-            return null;
     }
 }

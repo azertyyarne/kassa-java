@@ -1,29 +1,47 @@
 package controller;
 
-import model.*;
+import model.Kassa;
+import model.Observer;
+import model.Product;
+import view.ErrorAlert;
 import view.panels.KassaOverviewPane;
 
-public class KassaOverviewController {
+public class KassaOverviewController implements Observer {
     private Kassa model;
     private KassaOverviewPane view;
 
     public KassaOverviewController(Kassa model, KassaOverviewPane view){
         this.model = model;
+        model.addObserver(this);
         this.view = view;
-        view.addEvent(event -> addProduct());
-        view.removeEvent(event -> removeProduct());
+        this.view.setController(this);
+        update();
+        view.getFieldProductCode().setOnAction(event -> addProductToShoppingCart());
     }
 
-    private void addProduct(){
-        Product product = model.getProduct(Integer.parseInt(view.getFieldProductCode().getText()));
-        model.addProduct(product);
-        view.addBedrag(product.getPrice());
+    private void addProductToShoppingCart() {
+        try{
+            int code = Integer.parseInt(view.getFieldProductCode().getText());
+            model.addProductShoppingCart(code);
+        }
+        catch (Exception e){
+            ErrorAlert.show(e.getMessage());
+        }
     }
 
-    private void removeProduct() {
-        Product product = model.getProduct(Integer.parseInt(view.getFieldProductCode().getText()));
-        model.removeProduct(product);
-        view.addBedrag(-product.getPrice());
-        /*refresh deel van yarne*/
+    public void deleteProductOutOfShoppingCart(Product product) {
+        try {
+            model.deleteProductShoppingCart(product);
+        }
+        catch (Exception e){
+            ErrorAlert.show(e.getMessage());
+        }
+    }
+
+    @Override
+    public void update() {
+        view.setProducts(model.getAllProductsShoppingCart());
+        view.getLabelTotalPrice().setText(String.valueOf(model.getTotalPriceShoppingCart()));
+        view.refresh();
     }
 }
