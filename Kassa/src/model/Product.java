@@ -41,9 +41,7 @@ public class Product {
         this.price = price;
     }
 
-    public void setStock(int stock) throws ModelException {
-        if (stock < 0)
-            throw new ModelException("Voorraad moet positief zijn");
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
