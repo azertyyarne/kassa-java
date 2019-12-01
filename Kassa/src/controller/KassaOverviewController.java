@@ -17,14 +17,23 @@ public class KassaOverviewController implements Observer {
         this.view.setController(this);
         update();
         view.getFieldProductCode().setOnAction(event -> addProductToShoppingCart());
+        view.onHoldEvent(event -> manageOnHoldCart());
+    }
+
+    private void manageOnHoldCart() {
+        try {
+            model.manageOnHoldCart();
+            view.changeTextBtn();
+        } catch (Exception e) {
+            ErrorAlert.show(e.getMessage());
+        }
     }
 
     private void addProductToShoppingCart() {
-        try{
+        try {
             int code = Integer.parseInt(view.getFieldProductCode().getText());
             model.addProductShoppingCart(code);
-        }
-        catch (Exception e){
+        } catch (Exception e){
             ErrorAlert.show(e.getMessage());
         }
     }
@@ -32,8 +41,7 @@ public class KassaOverviewController implements Observer {
     public void deleteProductOutOfShoppingCart(Product product) {
         try {
             model.deleteProductShoppingCart(product);
-        }
-        catch (Exception e){
+        } catch (Exception e){
             ErrorAlert.show(e.getMessage());
         }
     }

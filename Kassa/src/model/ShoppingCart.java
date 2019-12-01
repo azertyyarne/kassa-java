@@ -27,7 +27,10 @@ public class ShoppingCart {
 
     public List<Product> getAllProducts() {
         return products;
+    }
 
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public double getTotalPrice() {
@@ -47,5 +50,10 @@ public class ShoppingCart {
             }
         }
         return result;
+    }
+
+    @Override
+    public ShoppingCart clone() throws CloneNotSupportedException {
+        return (ShoppingCart) super.clone();
     }
 }

@@ -2,12 +2,12 @@ package model;
 
 import database.ProductDB;
 import database.ProductDBstrategy;
-
 import java.util.*;
 
 public class Kassa implements Observable {
     private ProductDB productDB = new ProductDB();
     private ShoppingCart shoppingCart = new ShoppingCart();
+    private List<Product> onHoldShoppingCart;
     private List<Observer> observers = new ArrayList<>();
 
     public void setProductDB(ProductDBstrategy strategy) {
@@ -54,6 +54,22 @@ public class Kassa implements Observable {
 
     public void deleteProductShoppingCart(Product product){
         shoppingCart.delete(product);
+        updateObservers();
+    }
+
+    public List<Product> getOnHoldShoppingCart() {
+        return onHoldShoppingCart;
+    }
+
+    public void manageOnHoldCart() {
+        if (onHoldShoppingCart == null) {
+            onHoldShoppingCart = shoppingCart.getAllProducts();
+            shoppingCart = new ShoppingCart();
+        } else {
+            shoppingCart = new ShoppingCart();
+            shoppingCart.setProducts(onHoldShoppingCart);
+            onHoldShoppingCart = null;
+        }
         updateObservers();
     }
 

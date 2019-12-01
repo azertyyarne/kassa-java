@@ -2,6 +2,7 @@ package view.panels;
 
 import controller.KassaOverviewController;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
@@ -16,6 +17,7 @@ public class KassaOverviewPane extends GridPane {
     private TextField fieldProductCode;
     private Label labelTotalPrice;
     private KassaOverviewController controller;
+    private Button onHoldBtn;
 
     public KassaOverviewPane(){
         this.setPadding(new Insets(5, 5, 5, 5));
@@ -51,6 +53,13 @@ public class KassaOverviewPane extends GridPane {
         this.add(fieldProductCode,0,0);
         this.add(labelTotalPrice,2,0);
         this.add(table,0,1,2,1);
+
+        onHoldBtn = new Button("Zet in wachtrij");
+        this.add(onHoldBtn, 3, 0);
+    }
+
+    public void onHoldEvent(EventHandler onHold) {
+        onHoldBtn.setOnAction(onHold);
     }
 
     public void refresh(){
@@ -78,5 +87,12 @@ public class KassaOverviewPane extends GridPane {
 
     public Label getLabelTotalPrice() {
         return labelTotalPrice;
+    }
+
+    public void changeTextBtn() {
+        if (onHoldBtn.getText().equals("Zet in wachtrij"))
+            onHoldBtn.setText("Restore cart");
+        else
+            onHoldBtn.setText("Zet in wachtrij");
     }
 }
