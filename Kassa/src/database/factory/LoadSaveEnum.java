@@ -5,20 +5,20 @@ import database.DbException;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum DatabaseEnum {
+public enum LoadSaveEnum {
     ARTIKELTEKST("ArtikelsTekstbestand","database.template.ArtikelTekstLoadSave"),
-    ARTIKELEXCEL("ArtikelsExcelbestand","database.ExcelLoadSaveStrategy");
+    ARTIKELEXCEL("ArtikelsExcelbestand","database.ExcelLoadSave");
 
     private final String description,className;
 
-    DatabaseEnum(String description,String className){
+    LoadSaveEnum(String description, String className){
         this.description = description;
         this.className = className;
     }
 
     public static List<String> getDescriptions(){
         List<String> descriptions = new ArrayList<>();
-        for (DatabaseEnum databaseEnum : DatabaseEnum.values()){
+        for (LoadSaveEnum databaseEnum : LoadSaveEnum.values()){
             descriptions.add(databaseEnum.description);
         }
         return descriptions;
@@ -28,8 +28,8 @@ public enum DatabaseEnum {
         return className;
     }
 
-    public static DatabaseEnum getDatabaseEnum(String description){
-        for (DatabaseEnum databaseEnum : DatabaseEnum.values()){
+    public static LoadSaveEnum getLoadSaveEnum(String description){
+        for (LoadSaveEnum databaseEnum : LoadSaveEnum.values()){
             if (description.equals(databaseEnum.description)){
                 return databaseEnum;
             }

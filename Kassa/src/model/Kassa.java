@@ -1,37 +1,29 @@
 package model;
 
-import database.Database;
-import database.factory.Factory;
+import database.ProductDB;
+import database.ProductDBstrategy;
 
 import java.util.*;
 
 public class Kassa implements Observable {
-    private Database database;
-    private Map<Integer,Product> products = new HashMap<>();
+    private ProductDB productDB = new ProductDB();
     private ShoppingCart shoppingCart = new ShoppingCart();
     private List<Observer> observers = new ArrayList<>();
 
-    public void setDatabase(String database){
-        this.database = Factory.getInstance().getDatabase(database);
+    public void setProductDB(ProductDBstrategy strategy) {
+        productDB.setStrategy(strategy);
     }
 
-    public Database getDatabase() {
-        return database;
-    }
-
-    public void loadProducts(){
-        List<Product> productsList = database.load();
-        for (Product product : productsList){
-            products.put(product.getCode(),product);
-        }
-    }
-
-    public void saveProducts(){
-        database.save(new ArrayList<>(products.values()));
+    public ProductDB getProductDB() {
+        return productDB;
     }
 
     public Collection<Product> getProducts(){
-        return products.values();
+        return productDB.getProducts();
+    }
+
+    public Product getProduct(int code){
+        return productDB.getProduct(code);
     }
 
     public void addObserver(Observer observer){
@@ -63,13 +55,6 @@ public class Kassa implements Observable {
     public void deleteProductShoppingCart(Product product){
         shoppingCart.delete(product);
         updateObservers();
-    }
-
-    public Product getProduct(int code){
-        if (!products.containsKey(code)){
-            throw new ModelException("Niet bestaande code voor " + code);
-        }
-        return products.get(code);
     }
 
     @Override

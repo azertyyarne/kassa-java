@@ -1,5 +1,5 @@
 package application;
-	
+
 import controller.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -14,7 +14,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		Kassa kassa = new Kassa();
 
-		controller = new KassaController(kassa,"src/bestanden/kassa.properties");
+		controller = new KassaController(kassa);
 		controller.setUp();
 
 		KassaView kassaView = new KassaView();

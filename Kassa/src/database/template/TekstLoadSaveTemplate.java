@@ -1,13 +1,15 @@
 package database.template;
 
-import database.Database;
 import database.DbException;
+import database.LoadSaveStrategy;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-public abstract class TekstLoadSaveTemplate implements Database {
+public abstract class TekstLoadSaveTemplate implements LoadSaveStrategy {
 
     @Override
     public final ArrayList load(){

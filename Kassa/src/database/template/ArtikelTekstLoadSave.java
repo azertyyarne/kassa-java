@@ -1,7 +1,8 @@
 package database.template;
 
 import model.Product;
-import java.util.*;
+
+import java.util.List;
 
 public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate {
     @Override

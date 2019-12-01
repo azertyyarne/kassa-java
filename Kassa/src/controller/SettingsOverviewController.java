@@ -14,7 +14,9 @@ public class SettingsOverviewController {
         this.model = model;
         this.view = view;
         this.properties = properties;
-        view.getComboBox().getSelectionModel().select(properties.getProperty("database"));
-        view.getComboBox().setOnAction(event -> properties.setProperty("database",view.getComboBox().getValue()));
+        view.getComboBoxProductDB().getSelectionModel().select(properties.getProperty("productDB"));
+        view.getComboBoxProductDB().setOnAction(event -> properties.setProperty("productDB",view.getComboBoxProductDB().getValue()));
+        view.getComboBoxLoadSave().getSelectionModel().select(properties.getProperty("loadSave"));
+        view.getComboBoxLoadSave().setOnAction(event -> properties.setProperty("loadSave",view.getComboBoxLoadSave().getValue()));
     }
 }

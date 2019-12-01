@@ -1,5 +1,8 @@
 package controller;
 
+import database.InMemoryDB;
+import database.ProductDBstrategy;
+import database.factory.Factory;
 import model.Kassa;
 import model.ModelException;
 
@@ -11,12 +14,12 @@ import java.util.Properties;
 
 public class KassaController {
     private Kassa model;
-    private String filepath;
     private Properties properties;
+    private String filepath = "src/bestanden/kassa.properties";
 
-    public KassaController(Kassa model, String filepath){
+
+    public KassaController(Kassa model){
         this.model = model;
-        this.filepath = filepath;
     }
 
     public Properties getProperties(){
@@ -24,17 +27,21 @@ public class KassaController {
     }
 
     public void setUp(){
-        readProperties(filepath);
-        model.setDatabase(properties.getProperty("database"));
-        model.loadProducts();
+        readProperties();
+        Factory factory = Factory.getInstance();
+        ProductDBstrategy strategy = factory.getProductDB(properties.getProperty("productDB"));
+        if (strategy instanceof InMemoryDB){
+            ((InMemoryDB) strategy).setLoadSave(factory.getLoadSave(properties.getProperty("loadSave")));
+        }
+        model.setProductDB(strategy);
     }
 
     public void breakDown(){
-        model.saveProducts();
+        model.getProductDB().saveProducts();
         writeProperties();
     }
 
-    private void readProperties(String filepath) {
+    private void readProperties() {
         properties = new Properties();
         try{
             InputStream is = new FileInputStream(new File(filepath));

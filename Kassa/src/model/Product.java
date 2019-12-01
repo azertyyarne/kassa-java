@@ -76,15 +76,10 @@ public class Product {
     }
 
     public void moveToStock(){
-        setStock(stock + 1);
+        stock++;
     }
 
-    public void getFromStock(){
-        try{
-            setStock(stock - 1);
-        }
-        catch (ModelException e){
-            throw new ModelException("Van product " + code + " zijn er geen meer in");
-        }
+    public void removeFromStock(){
+        stock--;
     }
 }
