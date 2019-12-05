@@ -51,9 +51,4 @@ public class ShoppingCart {
         }
         return result;
     }
-
-    @Override
-    public ShoppingCart clone() throws CloneNotSupportedException {
-        return (ShoppingCart) super.clone();
-    }
 }
