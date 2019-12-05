@@ -1,9 +1,10 @@
 package model.kortingStrategy;
 
 import model.Product;
+import model.ShoppingCart;
 
 import java.util.List;
 
 public interface KortingStrategy {
-    double getKorting(List<Product> products);
+    double getKorting(ShoppingCart cart);
 }
