@@ -2,6 +2,8 @@ package model;
 
 import database.ProductDB;
 import database.ProductDBstrategy;
+import model.kortingStrategy.KortingStrategy;
+
 import java.util.*;
 
 public class Kassa implements Observable {
@@ -9,6 +11,11 @@ public class Kassa implements Observable {
     private ShoppingCart shoppingCart = new ShoppingCart();
     private List<Product> onHoldShoppingCart;
     private List<Observer> observers = new ArrayList<>();
+    private KortingStrategy kortingStrategy;
+
+    public void setKortingStrategy(KortingStrategy kortingStrategy) {
+        this.kortingStrategy = kortingStrategy;
+    }
 
     public void setProductDB(ProductDBstrategy strategy) {
         productDB.setStrategy(strategy);
@@ -44,6 +51,10 @@ public class Kassa implements Observable {
 
     public double getTotalPriceShoppingCart(){
         return shoppingCart.getTotalPrice();
+    }
+
+    public double getKorting(){
+        return kortingStrategy.getKorting(shoppingCart);
     }
 
     public void addProductShoppingCart(int code){
