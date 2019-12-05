@@ -42,10 +42,10 @@ public class KassaOverviewPane extends GridPane {
             return row;
         });
         TableColumn<Product, String> colName = new TableColumn<>("Name");
-        colName.setMinWidth(100);
+        colName.setMinWidth(150);
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<Product, Double> colPrice = new TableColumn<>("Price");
-        colPrice.setMinWidth(100);
+        colPrice.setMinWidth(150);
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         table.getColumns().addAll(colName, colPrice);
         fieldProductCode = new TextField();
