@@ -17,7 +17,6 @@ public class KassaController {
     private Properties properties;
     private String filepath = "src/bestanden/kassa.properties";
 
-
     public KassaController(Kassa model){
         this.model = model;
     }
