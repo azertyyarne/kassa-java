@@ -18,6 +18,7 @@ public class KassaOverviewPane extends GridPane {
     private Label labelTotalPrice;
     private KassaOverviewController controller;
     private Button onHoldBtn;
+    private Button afsluitenBtn;
 
     public KassaOverviewPane(){
         this.setPadding(new Insets(5, 5, 5, 5));
@@ -53,9 +54,11 @@ public class KassaOverviewPane extends GridPane {
         this.add(fieldProductCode,0,0);
         this.add(labelTotalPrice,2,0);
         this.add(table,0,1,2,1);
-
         onHoldBtn = new Button("Zet in wachtrij");
         this.add(onHoldBtn, 3, 0);
+        afsluitenBtn = new Button("Afsluiten");
+        afsluitenBtn.setMinWidth(100);
+        this.add(afsluitenBtn, 0, 2);
     }
 
     public void onHoldEvent(EventHandler onHold) {
@@ -89,7 +92,7 @@ public class KassaOverviewPane extends GridPane {
         return labelTotalPrice;
     }
 
-    public void changeTextBtn() {
+    public void changeOnHoldBtnText() {
         if (onHoldBtn.getText().equals("Zet in wachtrij"))
             onHoldBtn.setText("Restore cart");
         else

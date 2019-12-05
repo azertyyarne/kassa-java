@@ -23,7 +23,7 @@ public class KassaOverviewController implements Observer {
     private void manageOnHoldCart() {
         try {
             model.manageOnHoldCart();
-            view.changeTextBtn();
+            view.changeOnHoldBtnText();
         } catch (Exception e) {
             ErrorAlert.show(e.getMessage());
         }

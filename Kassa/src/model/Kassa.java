@@ -72,6 +72,10 @@ public class Kassa implements Observable {
         return onHoldShoppingCart;
     }
 
+    public void deleteOnHoldShoppingCart() {
+        this.onHoldShoppingCart = null;
+    }
+
     public void manageOnHoldCart() {
         if (onHoldShoppingCart == null) {
             onHoldShoppingCart = shoppingCart.getAllProducts();
