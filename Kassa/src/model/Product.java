@@ -1,7 +1,5 @@
 package model;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-
 public class Product {
     private int code;
     private String name;
@@ -42,8 +40,6 @@ public class Product {
     }
 
     public void setStock(int stock) throws ModelException {
-        if (stock < 0)
-            throw new ModelException("Voorraad moet positief zijn");
         this.stock = stock;
     }
 
