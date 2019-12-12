@@ -4,25 +4,25 @@ import database.DbException;
 import database.LoadSaveStrategy;
 import database.ProductDBstrategy;
 
-public class Factory {
-    private static Factory factory = new Factory();
+public class FactoryDB {
+    private static FactoryDB factory = new FactoryDB();
 
-    private Factory(){
+    private FactoryDB(){
 
     }
 
-    public static Factory getInstance(){
+    public static FactoryDB getInstance(){
         return factory;
     }
 
-    public LoadSaveStrategy getLoadSave(String description){
-        LoadSaveEnum loadSaveEnum = LoadSaveEnum.getLoadSaveEnum(description);
+    public LoadSaveStrategy getLoadSave(String name){
+        LoadSaveEnum loadSaveEnum = LoadSaveEnum.getLoadSaveEnum(name);
         String className = loadSaveEnum.getClassName();
         LoadSaveStrategy loadSave = null;
         try{
-            Class dbClass = Class.forName(className);
-            Object dbObject = dbClass.newInstance();
-            loadSave = (LoadSaveStrategy) dbObject;
+            Class loadsaveClass = Class.forName(className);
+            Object loadsaveObject = loadsaveClass.newInstance();
+            loadSave = (LoadSaveStrategy) loadsaveObject;
         }
         catch (Exception e){
             throw new DbException(e.getMessage());
@@ -30,8 +30,8 @@ public class Factory {
         return loadSave;
     }
 
-    public ProductDBstrategy getProductDB(String description){
-        ProductDBEnum productDBEnum = ProductDBEnum.getProductDBeEnum(description);
+    public ProductDBstrategy getProductDB(String name){
+        ProductDBEnum productDBEnum = ProductDBEnum.getProductDBeEnum(name);
         String className = productDBEnum.getClassName();
         ProductDBstrategy productDB = null;
         try{

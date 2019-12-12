@@ -8,28 +8,27 @@ import view.KassaView;
 import view.KlantView;
 
 public class Main extends Application {
-	private KassaController controller;
+	private SettingsController settingsController;
 
 	@Override
 	public void start(Stage primaryStage) {
 		Kassa kassa = new Kassa();
 
-		controller = new KassaController(kassa);
-		controller.setUp();
-
 		KassaView kassaView = new KassaView();
 		KlantView klantView = new KlantView();
 
+		settingsController = new SettingsController(kassa,kassaView.getSettingsOverviewPane());
+		settingsController.setup();
+
 		ProductOverviewController productOverviewController = new ProductOverviewController(kassa,kassaView.getProductOverviewPane());
 		KassaOverviewController kassaOverviewController = new KassaOverviewController(kassa,kassaView.getKassaOverviewPane());
-		SettingsOverviewController settingsOverviewController = new SettingsOverviewController(kassa,kassaView.getSettingsOverviewPane(), controller.getProperties());
 
 		KlantController klantController = new KlantController(kassa,klantView);
 	}
 
 	@Override
 	public void stop() throws Exception {
-		controller.breakDown();
+		settingsController.breakDown();
 		super.stop();
 	}
 

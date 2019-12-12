@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum ProductDBEnum {
-    INMEMORY("InMemory","database.InMemoryDB"),
-    RELATIONAL("Relational","");
+    INMEMORY("In Memory","inMemory","database.InMemoryDB"),
+    RELATIONAL("Relational Database","relational","");
 
-    private final String description,className;
+    private final String description,name,className;
 
-    ProductDBEnum(String description, String className){
+    ProductDBEnum(String description,String name, String className){
         this.description = description;
+        this.name = name;
         this.className = className;
     }
 
@@ -28,12 +29,30 @@ public enum ProductDBEnum {
         return className;
     }
 
-    public static ProductDBEnum getProductDBeEnum(String description){
+    public static String getName(String description){
         for (ProductDBEnum productDBEnum : ProductDBEnum.values()){
             if (description.equals(productDBEnum.description)){
-                return productDBEnum;
+                return productDBEnum.name;
             }
         }
         throw new DbException("Er is geen database met omschrijving \"" + description + "\"");
+    }
+
+    public static String getDescription(String name){
+        for (ProductDBEnum productDBEnum : ProductDBEnum.values()){
+            if (name.equals(productDBEnum.name)){
+                return productDBEnum.description;
+            }
+        }
+        throw new DbException("Er is geen database met naam \"" + name + "\"");
+    }
+
+    public static ProductDBEnum getProductDBeEnum(String name){
+        for (ProductDBEnum productDBEnum : ProductDBEnum.values()){
+            if (name.equals(productDBEnum.name)){
+                return productDBEnum;
+            }
+        }
+        throw new DbException("Er is geen database met naam \"" + name + "\"");
     }
 }

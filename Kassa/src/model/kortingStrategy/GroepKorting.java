@@ -5,15 +5,11 @@ import model.ShoppingCart;
 
 import java.util.List;
 
-public class GroepKorting implements KortingStrategy {
-
-
+public class GroepKorting extends KortingStrategy {
     private String kortingsGroep;
-    private double percentage;
 
-    public GroepKorting(String kortingsGroep , double percentage){
+    public void setKortingsGroep(String kortingsGroep) {
         this.kortingsGroep = kortingsGroep;
-        this.percentage = percentage/100;
     }
 
     @Override
@@ -21,7 +17,7 @@ public class GroepKorting implements KortingStrategy {
         double korting = 0;
         for (Product product : cart.getAllProducts()) {
             if (product.getGroup().equals(kortingsGroep))
-                korting+=product.getPrice()*percentage;
+                korting+=product.getPrice()*(procent/100);
         }
         return korting;
     }

@@ -5,16 +5,11 @@ import model.ShoppingCart;
 
 import java.util.List;
 
-public class DuursteKorting implements KortingStrategy {
-    private double percent;
-
-    public DuursteKorting(double percent){
-        this.percent = percent;
-    }
+public class DuursteKorting extends KortingStrategy {
 
     @Override
     public double getKorting(ShoppingCart cart) {
-        return getDuurste(cart.getAllProducts()).getPrice() * (percent / 100);
+        return getDuurste(cart.getAllProducts()).getPrice() * (procent / 100);
     }
 
     private Product getDuurste(List<Product> products){

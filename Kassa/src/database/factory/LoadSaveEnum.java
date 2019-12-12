@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum LoadSaveEnum {
-    ARTIKELTEKST("ArtikelsTekstbestand","database.template.ArtikelTekstLoadSave"),
-    ARTIKELEXCEL("ArtikelsExcelbestand","database.ExcelLoadSave");
+    ARTIKELTEKST("Artikels Tekstbestand","tekst","database.template.ArtikelTekstLoadSave"),
+    ARTIKELEXCEL("Artikels Excelbestand","excel","database.ExcelLoadSave");
 
-    private final String description,className;
+    private final String description,name,className;
 
-    LoadSaveEnum(String description, String className){
+    LoadSaveEnum(String description,String name,String className){
         this.description = description;
+        this.name = name;
         this.className = className;
     }
 
@@ -28,12 +29,30 @@ public enum LoadSaveEnum {
         return className;
     }
 
-    public static LoadSaveEnum getLoadSaveEnum(String description){
+    public static String getName(String description){
+        for (LoadSaveEnum loadSaveEnum : LoadSaveEnum.values()){
+            if (description.equals(loadSaveEnum.description)){
+                return loadSaveEnum.name;
+            }
+        }
+        throw new DbException("Er is geen LoadSave met omschrijving \"" + description + "\"");
+    }
+
+    public static String getDescription(String name){
+        for (LoadSaveEnum loadSaveEnum : LoadSaveEnum.values()){
+            if (name.equals(loadSaveEnum.name)){
+                return loadSaveEnum.description;
+            }
+        }
+        throw new DbException("Er is geen LoadSave met naam \"" + name + "\"");
+    }
+
+    public static LoadSaveEnum getLoadSaveEnum(String name){
         for (LoadSaveEnum databaseEnum : LoadSaveEnum.values()){
-            if (description.equals(databaseEnum.description)){
+            if (name.equals(databaseEnum.name)){
                 return databaseEnum;
             }
         }
-        throw new DbException("Er is geen database met omschrijving \"" + description + "\"");
+        throw new DbException("Er is geen LoadSave met naam \"" + name + "\"");
     }
 }
