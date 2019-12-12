@@ -25,7 +25,7 @@ public class KassaView {
 		TabPane tabPane = new TabPane();
 		Tab kassaTab = new Tab("Kassa", kassaOverviewPane);
 		Tab artikelTab = new Tab("Artikelen", productOverviewPane);
-		Tab instellingTab = new Tab("Instellingen",settingsOverviewPane);// , pane van bepaalde instellingen invoegen achter komma
+		Tab instellingTab = new Tab("Instellingen", settingsOverviewPane);// , pane van bepaalde instellingen invoegen achter komma
 		Tab logTab = new Tab("Log");// , pane van bepaalde tabs invoegen achter komma
 		tabPane.getTabs().add(kassaTab);
 		tabPane.getTabs().add(artikelTab);

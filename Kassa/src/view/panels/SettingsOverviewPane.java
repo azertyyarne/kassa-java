@@ -92,6 +92,4 @@ public class SettingsOverviewPane extends GridPane {
     public ComboBox<String> getComboBoxGroup() {
         return comboBoxGroup;
     }
-
-
 }

@@ -4,6 +4,7 @@ import controller.KassaOverviewController;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,10 +16,9 @@ import java.util.Collection;
 public class KassaOverviewPane extends GridPane {
     private TableView<Product> table;
     private TextField fieldProductCode;
-    private Label labelTotalPrice;
+    private Label labelTotalPrice, labelFinalPrice;
     private KassaOverviewController controller;
-    private Button onHoldBtn;
-    private Button afsluitenBtn;
+    private Button onHoldBtn, afsluitenBtn, betaaldBtn;
 
     public KassaOverviewPane(){
         this.setPadding(new Insets(5, 5, 5, 5));
@@ -51,14 +51,30 @@ public class KassaOverviewPane extends GridPane {
         table.getColumns().addAll(colName, colPrice);
         fieldProductCode = new TextField();
         labelTotalPrice = new Label();
-        this.add(fieldProductCode,0,0);
-        this.add(labelTotalPrice,2,0);
-        this.add(table,0,1,2,1);
         onHoldBtn = new Button("Zet in wachtrij");
-        this.add(onHoldBtn, 3, 0);
-        afsluitenBtn = new Button("Afsluiten");
+        afsluitenBtn = new Button("AFSLUIT");
         afsluitenBtn.setMinWidth(100);
-        this.add(afsluitenBtn, 0, 2);
+        betaaldBtn = new Button("BETAALD");
+        betaaldBtn.setMinWidth(100);
+        labelFinalPrice = new Label();
+        inputMenu();
+    }
+
+    public void inputMenu() {
+        this.getChildren().clear();
+
+        this.add(table,0,1,2,10);
+        this.add(fieldProductCode,0,0);
+        this.add(labelTotalPrice,2,1);
+        this.add(onHoldBtn, 2, 0);
+        this.add(afsluitenBtn, 0, 11);
+    }
+
+    public void afsluitMenu() {
+        this.getChildren().clear();
+        this.add(table,0,1,2,10);
+        this.add(labelFinalPrice, 2, 1, 1, 3);
+        this.add(betaaldBtn, 1, 12);
     }
 
     public void onHoldEvent(EventHandler onHold) {
@@ -90,6 +106,10 @@ public class KassaOverviewPane extends GridPane {
 
     public Label getLabelTotalPrice() {
         return labelTotalPrice;
+    }
+
+    public Label getLabelFinalPrice() {
+        return labelFinalPrice;
     }
 
     public void changeOnHoldBtnText() {

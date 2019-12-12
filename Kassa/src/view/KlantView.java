@@ -1,29 +1,24 @@
 package view;
 
 import controller.KlantController;
-import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Product;
-
 import java.util.Collection;
+import model.Product;
 
 public class KlantView {
 	private Stage stage = new Stage();
 	private TableView<Product> table;
-	private Label labelTotalPrice;
+	private Label labelTotalPrice, labelFinalPrice;
 	private KlantController controller;
 
 	public KlantView(){			
@@ -56,10 +51,19 @@ public class KlantView {
 			return new ReadOnlyObjectWrapper<>(controller.getQuantity(product));
 		});
 		table.getColumns().addAll(colName, colPrice, colQuantity);
+		root.add(table,0,0, 2, 10);
 		labelTotalPrice = new Label();
-		root.add(table,0,1);
-		root.add(labelTotalPrice,1,0);
+		labelFinalPrice = new Label();
+		inputMenu(root);
 		return root;
+	}
+
+	public void inputMenu(GridPane root) {
+		root.add(labelTotalPrice,2,1);
+	}
+
+	public void afsluitMenu(GridPane root) {
+		root.add(labelFinalPrice, 2, 1);
 	}
 
 	public void setController(KlantController controller){
@@ -76,12 +80,16 @@ public class KlantView {
 	}
 
 	private void setSortType(){
-		TableColumn colName = table.getColumns().get(1);
+		TableColumn colName = table.getColumns().get(0);
 		colName.setSortType(TableColumn.SortType.ASCENDING);
 		table.getSortOrder().add(colName);
 	}
 
 	public Label getLabelTotalPrice() {
 		return labelTotalPrice;
+	}
+
+	public Label getLabelFinalPrice() {
+		return labelFinalPrice;
 	}
 }

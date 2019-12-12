@@ -3,7 +3,6 @@ package model;
 import database.ProductDB;
 import database.ProductDBstrategy;
 import model.kortingStrategy.KortingStrategy;
-
 import java.util.*;
 
 public class Kassa implements Observable {
@@ -53,6 +52,10 @@ public class Kassa implements Observable {
         return shoppingCart.getTotalPrice();
     }
 
+    public double getFinalPriceShoppingCart() {
+        return shoppingCart.getTotalPrice()-getKorting();
+    }
+
     public double getKorting(){
         return kortingStrategy.getKorting(shoppingCart);
     }
@@ -94,4 +97,6 @@ public class Kassa implements Observable {
             observer.update();
         }
     }
+
+
 }

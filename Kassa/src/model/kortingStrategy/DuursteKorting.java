@@ -2,7 +2,6 @@ package model.kortingStrategy;
 
 import model.Product;
 import model.ShoppingCart;
-
 import java.util.List;
 
 public class DuursteKorting extends KortingStrategy {

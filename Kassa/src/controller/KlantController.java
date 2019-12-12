@@ -29,7 +29,8 @@ public class KlantController implements Observer {
     @Override
     public void update() {
         view.setProducts(model.getProductsShoppingCart());
-        view.getLabelTotalPrice().setText(String.valueOf(model.getTotalPriceShoppingCart()));
+        view.getLabelTotalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart());
+        view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
         view.refresh();
     }
 }
