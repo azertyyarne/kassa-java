@@ -63,6 +63,7 @@ public class KlantView {
 	}
 
 	public void afsluitMenu(GridPane root) {
+		root.getChildren().remove(labelTotalPrice);
 		root.add(labelFinalPrice, 2, 1);
 	}
 

@@ -4,13 +4,11 @@ import controller.KassaOverviewController;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import model.Product;
-
 import java.util.Collection;
 
 public class KassaOverviewPane extends GridPane {
@@ -62,7 +60,6 @@ public class KassaOverviewPane extends GridPane {
 
     public void inputMenu() {
         this.getChildren().clear();
-
         this.add(table,0,1,2,10);
         this.add(fieldProductCode,0,0);
         this.add(labelTotalPrice,2,1);
@@ -80,6 +77,8 @@ public class KassaOverviewPane extends GridPane {
     public void onHoldEvent(EventHandler onHold) {
         onHoldBtn.setOnAction(onHold);
     }
+
+    public void afsluitenEvent(EventHandler afsluiten) {afsluitenBtn.setOnAction(afsluiten);}
 
     public void refresh(){
         table.refresh();

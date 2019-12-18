@@ -1,9 +1,7 @@
 package controller;
 
-import model.Kassa;
-import model.Observer;
-import model.Product;
-import view.ErrorAlert;
+import model.*;
+import view.*;
 import view.panels.KassaOverviewPane;
 
 public class KassaOverviewController implements Observer {
@@ -18,6 +16,12 @@ public class KassaOverviewController implements Observer {
         update();
         view.getFieldProductCode().setOnAction(event -> addProductToShoppingCart());
         view.onHoldEvent(event -> manageOnHoldCart());
+        view.afsluitenEvent(event -> manageAfsluiten());
+    }
+
+    private void manageAfsluiten() {
+        view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
+        view.afsluitMenu();
     }
 
     private void manageOnHoldCart() {
@@ -50,7 +54,6 @@ public class KassaOverviewController implements Observer {
     public void update() {
         view.setProducts(model.getAllProductsShoppingCart());
         view.getLabelTotalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart());
-        view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
         view.refresh();
     }
 }
