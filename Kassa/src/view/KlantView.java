@@ -20,19 +20,21 @@ public class KlantView {
 	private TableView<Product> table;
 	private Label labelTotalPrice, labelFinalPrice;
 	private KlantController controller;
+	private GridPane root;
 
 	public KlantView(){			
 		stage.setTitle("KLANT VIEW");
 		stage.setResizable(false);		
 		stage.setX(775);
 		stage.setY(20);
-		Scene scene = new Scene(getRoot(), 500, 500);
+		this.root = getRoot();
+		Scene scene = new Scene(root, 500, 500);
 		stage.setScene(scene);
 		stage.sizeToScene();			
 		stage.show();		
 	}
 
-	private Pane getRoot(){
+	private GridPane getRoot(){
 		GridPane root = new GridPane();
 		root.setPadding(new Insets(5, 5, 5, 5));
 		root.setVgap(5);
@@ -54,15 +56,15 @@ public class KlantView {
 		root.add(table,0,0, 2, 10);
 		labelTotalPrice = new Label();
 		labelFinalPrice = new Label();
-		inputMenu(root);
+		inputMenu();
 		return root;
 	}
 
-	public void inputMenu(GridPane root) {
-		root.add(labelTotalPrice,2,1);
+	public void inputMenu() {
+		this.root.add(labelTotalPrice,2,1);
 	}
 
-	public void afsluitMenu(GridPane root) {
+	public void afsluitMenu() {
 		root.getChildren().remove(labelTotalPrice);
 		root.add(labelFinalPrice, 2, 1);
 	}

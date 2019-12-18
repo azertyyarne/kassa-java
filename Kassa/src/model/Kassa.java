@@ -97,6 +97,4 @@ public class Kassa implements Observable {
             observer.update();
         }
     }
-
-
 }

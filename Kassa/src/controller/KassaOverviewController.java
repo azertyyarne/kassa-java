@@ -22,6 +22,7 @@ public class KassaOverviewController implements Observer {
     private void manageAfsluiten() {
         view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
         view.afsluitMenu();
+        //hoe kan je nu zeggen dat hij manageAfsluiten van de kassacontroller moet uitvoren? observer?
     }
 
     private void manageOnHoldCart() {
