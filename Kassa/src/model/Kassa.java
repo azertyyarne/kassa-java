@@ -3,13 +3,18 @@ package model;
 import database.ProductDB;
 import database.ProductDBstrategy;
 import model.kortingStrategy.KortingStrategy;
+import model.observer.ObserverAfsluit;
+import model.observer.Observable;
+import model.observer.Observer;
+
 import java.util.*;
 
-public class Kassa implements Observable, Afsluiten {
+public class Kassa implements Observable, ObserverAfsluit {
     private ProductDB productDB = new ProductDB();
     private ShoppingCart shoppingCart = new ShoppingCart();
     private List<Product> onHoldShoppingCart;
     private List<Observer> observers = new ArrayList<>();
+    private List<ObserverAfsluit> observersAfsluit = new ArrayList<>();
     private KortingStrategy kortingStrategy;
 
     public void setKortingStrategy(KortingStrategy kortingStrategy) {
@@ -34,6 +39,10 @@ public class Kassa implements Observable, Afsluiten {
 
     public void addObserver(Observer observer){
         observers.add(observer);
+    }
+
+    public void addObserverAfsluit(ObserverAfsluit observerAfsluit){
+        observersAfsluit.add(observerAfsluit);
     }
 
     public Collection<Product> getAllProductsShoppingCart() {
@@ -93,15 +102,15 @@ public class Kassa implements Observable, Afsluiten {
 
     @Override
     public void updateObservers() {
-        for (Observer observer : observers){
+        for (model.observer.Observer observer : observers){
             observer.update();
         }
     }
 
     @Override
     public void showAfsluitenMenu() {
-        for (Observer observer: observers) {
-            observer.showAfsluitenMenu();
+        for (ObserverAfsluit observerAfsluit: observersAfsluit) {
+            observerAfsluit.showAfsluitenMenu();
         }
     }
 }

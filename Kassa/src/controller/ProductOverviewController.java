@@ -1,7 +1,7 @@
 package controller;
 
 import model.Kassa;
-import model.Observer;
+import model.observer.Observer;
 import view.panels.ProductOverviewPane;
 
 public class ProductOverviewController implements Observer {
@@ -19,10 +19,5 @@ public class ProductOverviewController implements Observer {
     public void update() {
         view.setProducts(model.getProducts());
         view.refresh();
-    }
-
-    @Override
-    public void showAfsluitenMenu() {
-
     }
 }

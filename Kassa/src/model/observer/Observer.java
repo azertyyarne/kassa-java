@@ -1,6 +1,5 @@
-package model;
+package model.observer;
 
 public interface Observer {
     void update();
-    void showAfsluitenMenu();
 }

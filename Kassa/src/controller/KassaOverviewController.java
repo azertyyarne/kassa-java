@@ -1,21 +1,24 @@
 package controller;
 
 import model.*;
+import model.observer.Observer;
+import model.observer.ObserverAfsluit;
 import view.*;
 import view.panels.KassaOverviewPane;
 
-public class KassaOverviewController implements Observer {
+public class KassaOverviewController implements Observer, ObserverAfsluit {
     private Kassa model;
     private KassaOverviewPane view;
 
     public KassaOverviewController(Kassa model, KassaOverviewPane view){
         this.model = model;
         model.addObserver(this);
+        model.addObserverAfsluit(this);
         this.view = view;
         this.view.setController(this);
         view.getFieldProductCode().setOnAction(event -> addProductToShoppingCart());
         view.onHoldEvent(event -> manageOnHoldCart());
-        view.afsluitenEvent(event -> model.updateObservers());
+        view.afsluitenEvent(event -> model.showAfsluitenMenu());
         update();
     }
 
