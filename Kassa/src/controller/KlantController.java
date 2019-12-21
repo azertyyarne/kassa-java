@@ -1,11 +1,12 @@
 package controller;
 
+import model.Afsluiten;
 import model.Kassa;
 import model.Observer;
 import model.Product;
 import view.KlantView;
 
-public class KlantController implements Observer {
+public class KlantController implements Observer, Afsluiten {
     private Kassa model;
     private KlantView view;
 
@@ -21,15 +22,21 @@ public class KlantController implements Observer {
         return model.getQuantityProductShoppingCart(product);
     }
 
-    private void manageAfsluiten() {
+    /*private void manageAfsluiten() {
         view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
         view.afsluitMenu();
-    }
+    }*/
 
     @Override
     public void update() {
         view.setProducts(model.getProductsShoppingCart());
         view.getLabelTotalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart());
         view.refresh();
+    }
+
+    @Override
+    public void showAfsluitenMenu() {
+        view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
+        view.afsluitMenu();
     }
 }
