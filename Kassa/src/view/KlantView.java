@@ -28,6 +28,7 @@ public class KlantView {
 		stage.setY(20);
 		this.root = getRoot();
 		Scene scene = new Scene(root, 500, 500);
+		inputMenu();
 		stage.setScene(scene);
 		stage.sizeToScene();			
 		stage.show();		
@@ -55,7 +56,6 @@ public class KlantView {
 		root.add(table,0,0, 2, 10);
 		labelTotalPrice = new Label();
 		labelFinalPrice = new Label();
-		inputMenu();
 		return root;
 	}
 
