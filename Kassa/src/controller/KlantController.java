@@ -3,10 +3,10 @@ package controller;
 import model.Kassa;
 import model.observer.Observer;
 import model.Product;
-import model.observer.ObserverAfsluit;
+import model.observer.ObserverKassaEvents;
 import view.KlantView;
 
-public class KlantController implements Observer, ObserverAfsluit {
+public class KlantController implements Observer, ObserverKassaEvents {
     private Kassa model;
     private KlantView view;
 
@@ -23,11 +23,6 @@ public class KlantController implements Observer, ObserverAfsluit {
         return model.getQuantityProductShoppingCart(product);
     }
 
-    /*private void manageAfsluiten() {
-        view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
-        view.afsluitMenu();
-    }*/
-
     @Override
     public void update() {
         view.setProducts(model.getProductsShoppingCart());
@@ -39,5 +34,10 @@ public class KlantController implements Observer, ObserverAfsluit {
     public void showAfsluitenMenu() {
         view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
         view.afsluitMenu();
+    }
+
+    @Override
+    public void manageNewEmptyScreen() {
+        view.inputMenu();
     }
 }

@@ -3,18 +3,17 @@ package model;
 import database.ProductDB;
 import database.ProductDBstrategy;
 import model.kortingStrategy.KortingStrategy;
-import model.observer.ObserverAfsluit;
+import model.observer.ObserverKassaEvents;
 import model.observer.Observable;
 import model.observer.Observer;
-
 import java.util.*;
 
-public class Kassa implements Observable, ObserverAfsluit {
+public class Kassa implements Observable, ObserverKassaEvents {
     private ProductDB productDB = new ProductDB();
     private ShoppingCart shoppingCart = new ShoppingCart();
     private List<Product> onHoldShoppingCart;
     private List<Observer> observers = new ArrayList<>();
-    private List<ObserverAfsluit> observersAfsluit = new ArrayList<>();
+    private List<ObserverKassaEvents> observerKassaEvents = new ArrayList<>();
     private KortingStrategy kortingStrategy;
 
     public void setKortingStrategy(KortingStrategy kortingStrategy) {
@@ -41,8 +40,8 @@ public class Kassa implements Observable, ObserverAfsluit {
         observers.add(observer);
     }
 
-    public void addObserverAfsluit(ObserverAfsluit observerAfsluit){
-        observersAfsluit.add(observerAfsluit);
+    public void addObserverAfsluit(ObserverKassaEvents observerAfsluit){
+        observerKassaEvents.add(observerAfsluit);
     }
 
     public Collection<Product> getAllProductsShoppingCart() {
@@ -80,6 +79,11 @@ public class Kassa implements Observable, ObserverAfsluit {
         updateObservers();
     }
 
+    public void resetProductShoppingCart() {
+        this.shoppingCart = new ShoppingCart();
+        updateObservers();
+    }
+
     public List<Product> getOnHoldShoppingCart() {
         return onHoldShoppingCart;
     }
@@ -93,11 +97,22 @@ public class Kassa implements Observable, ObserverAfsluit {
             onHoldShoppingCart = shoppingCart.getAllProducts();
             shoppingCart = new ShoppingCart();
         } else {
-            shoppingCart = new ShoppingCart();
-            shoppingCart.setProducts(onHoldShoppingCart);
-            onHoldShoppingCart = null;
+            if (shoppingCart.getAllProducts().size() == 0) {
+                shoppingCart = new ShoppingCart();
+                shoppingCart.setProducts(onHoldShoppingCart);
+                onHoldShoppingCart = null;
+            } else {
+                throw new ModelException("Je moet de vorige bestelling eerst afronden vooraleer een oude bestelling terug te zetten");
+            }
         }
         updateObservers();
+    }
+
+    public void manageAnnuleer() {
+        for (Product product : shoppingCart.getAllProducts()) {
+            product.moveToStock();
+        }
+        manageNewEmptyScreen();
     }
 
     @Override
@@ -109,8 +124,15 @@ public class Kassa implements Observable, ObserverAfsluit {
 
     @Override
     public void showAfsluitenMenu() {
-        for (ObserverAfsluit observerAfsluit: observersAfsluit) {
-            observerAfsluit.showAfsluitenMenu();
+        for (ObserverKassaEvents observerChangeScreen: observerKassaEvents) {
+            observerChangeScreen.showAfsluitenMenu();
+        }
+    }
+
+    @Override
+    public void manageNewEmptyScreen() {
+        for (ObserverKassaEvents observerChangeScreen: observerKassaEvents) {
+            observerChangeScreen.manageNewEmptyScreen();
         }
     }
 }

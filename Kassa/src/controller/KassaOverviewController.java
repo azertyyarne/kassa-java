@@ -2,11 +2,11 @@ package controller;
 
 import model.*;
 import model.observer.Observer;
-import model.observer.ObserverAfsluit;
+import model.observer.ObserverKassaEvents;
 import view.*;
 import view.panels.KassaOverviewPane;
 
-public class KassaOverviewController implements Observer, ObserverAfsluit {
+public class KassaOverviewController implements Observer, ObserverKassaEvents {
     private Kassa model;
     private KassaOverviewPane view;
 
@@ -19,14 +19,10 @@ public class KassaOverviewController implements Observer, ObserverAfsluit {
         view.getFieldProductCode().setOnAction(event -> addProductToShoppingCart());
         view.onHoldEvent(event -> manageOnHoldCart());
         view.afsluitenEvent(event -> model.showAfsluitenMenu());
+        view.betalenEvent(event -> model.manageNewEmptyScreen());
+        view.annulerenEvent(event -> model.manageAnnuleer()); // todo
         update();
     }
-
-    /*private void manageAfsluiten() {
-        view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
-        view.afsluitMenu();
-        //hoe kan je nu zeggen dat hij manageAfsluiten van de kassacontroller moet uitvoren? observer?
-    }*/
 
     private void manageOnHoldCart() {
         try {
@@ -65,5 +61,12 @@ public class KassaOverviewController implements Observer, ObserverAfsluit {
     public void showAfsluitenMenu() {
         view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
         view.afsluitMenu();
+    }
+
+    @Override
+    public void manageNewEmptyScreen() {
+        model.resetProductShoppingCart();
+        view.inputMenu();
+        update();
     }
 }

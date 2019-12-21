@@ -60,6 +60,7 @@ public class KlantView {
 	}
 
 	public void inputMenu() {
+		root.getChildren().remove(labelFinalPrice);
 		this.root.add(labelTotalPrice,2,1);
 	}
 

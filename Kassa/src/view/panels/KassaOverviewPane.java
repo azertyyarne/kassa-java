@@ -16,7 +16,7 @@ public class KassaOverviewPane extends GridPane {
     private TextField fieldProductCode;
     private Label labelTotalPrice, labelFinalPrice;
     private KassaOverviewController controller;
-    private Button onHoldBtn, afsluitenBtn, betaaldBtn;
+    private Button onHoldBtn, afsluitenBtn, betaaldBtn, anuleerBtn;
 
     public KassaOverviewPane(){
         this.setPadding(new Insets(5, 5, 5, 5));
@@ -54,6 +54,8 @@ public class KassaOverviewPane extends GridPane {
         afsluitenBtn.setMinWidth(100);
         betaaldBtn = new Button("BETAALD");
         betaaldBtn.setMinWidth(100);
+        anuleerBtn = new Button("ANULEER");
+        anuleerBtn.setMinWidth(100);
         labelFinalPrice = new Label();
         inputMenu();
     }
@@ -72,13 +74,24 @@ public class KassaOverviewPane extends GridPane {
         this.add(table,0,1,2,10);
         this.add(labelFinalPrice, 2, 1, 1, 3);
         this.add(betaaldBtn, 1, 12);
+        this.add(anuleerBtn, 2, 12);
     }
 
     public void onHoldEvent(EventHandler onHold) {
         onHoldBtn.setOnAction(onHold);
     }
 
-    public void afsluitenEvent(EventHandler afsluiten) {afsluitenBtn.setOnAction(afsluiten);}
+    public void afsluitenEvent(EventHandler afsluiten) {
+        afsluitenBtn.setOnAction(afsluiten);
+    }
+
+    public void betalenEvent(EventHandler betalen) {
+        betaaldBtn.setOnAction(betalen);
+    }
+
+    public void annulerenEvent(EventHandler annuleren) {
+        anuleerBtn.setOnAction(annuleren);
+    }
 
     public void refresh(){
         table.refresh();

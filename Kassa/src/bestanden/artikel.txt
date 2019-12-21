@@ -2,7 +2,7 @@
 2,artikel2,gr1,22,000000,0
 3,bartikel3,gr1,12,000000,0
 4,artikel4,gr1,50,000000,0
-5,artikel5,gr1,2,000000,-1
+5,artikel5,gr1,2,000000,0
 6,bartikel6,gr1,2,000000,0
 7,artikel7,gr1,3,000000,0
 8,artikel8,gr2,18,000000,0
