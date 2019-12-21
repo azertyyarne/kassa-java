@@ -5,7 +5,7 @@ import database.ProductDBstrategy;
 import model.kortingStrategy.KortingStrategy;
 import java.util.*;
 
-public class Kassa implements Observable {
+public class Kassa implements Observable, Afsluiten {
     private ProductDB productDB = new ProductDB();
     private ShoppingCart shoppingCart = new ShoppingCart();
     private List<Product> onHoldShoppingCart;
@@ -95,6 +95,13 @@ public class Kassa implements Observable {
     public void updateObservers() {
         for (Observer observer : observers){
             observer.update();
+        }
+    }
+
+    @Override
+    public void showAfsluitenMenu() {
+        for (Observer observer: observers) {
+            observer.showAfsluitenMenu();
         }
     }
 }

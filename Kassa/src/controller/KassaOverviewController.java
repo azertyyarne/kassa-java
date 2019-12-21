@@ -4,7 +4,7 @@ import model.*;
 import view.*;
 import view.panels.KassaOverviewPane;
 
-public class KassaOverviewController implements Observer, Afsluiten {
+public class KassaOverviewController implements Observer {
     private Kassa model;
     private KassaOverviewPane view;
 
@@ -15,7 +15,7 @@ public class KassaOverviewController implements Observer, Afsluiten {
         this.view.setController(this);
         view.getFieldProductCode().setOnAction(event -> addProductToShoppingCart());
         view.onHoldEvent(event -> manageOnHoldCart());
-        view.afsluitenEvent(event -> showAfsluitenMenu());
+        view.afsluitenEvent(event -> model.updateObservers());
         update();
     }
 

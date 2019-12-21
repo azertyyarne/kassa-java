@@ -20,4 +20,9 @@ public class ProductOverviewController implements Observer {
         view.setProducts(model.getProducts());
         view.refresh();
     }
+
+    @Override
+    public void showAfsluitenMenu() {
+
+    }
 }

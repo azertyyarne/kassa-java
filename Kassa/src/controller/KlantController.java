@@ -6,7 +6,7 @@ import model.Observer;
 import model.Product;
 import view.KlantView;
 
-public class KlantController implements Observer, Afsluiten {
+public class KlantController implements Observer {
     private Kassa model;
     private KlantView view;
 
