@@ -20,8 +20,7 @@ public abstract class TekstLoadSaveTemplate implements LoadSaveStrategy {
                 result.add(getObject(parameters));
             }
             sc.close();
-        }
-        catch (Exception e){
+        } catch (Exception e){
             throw new DbException(e.getMessage());
         }
         return result;
