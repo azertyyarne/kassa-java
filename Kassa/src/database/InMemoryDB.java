@@ -6,7 +6,7 @@ import java.util.*;
 
 public class InMemoryDB implements ProductDBstrategy {
     private LoadSaveStrategy loadSave;
-    private Map<Integer, Product> products = new HashMap<>();
+    private Map<String,Product> products = new HashMap<>();
 
     public void setLoadSave(LoadSaveStrategy loadSave) {
         this.loadSave = loadSave;
@@ -30,7 +30,10 @@ public class InMemoryDB implements ProductDBstrategy {
     }
 
     @Override
-    public Product getProduct(int code) {
+    public Product getProduct(String code) {
+        if (!products.containsKey(code)){
+            throw new DbException("Er is geen product met code " + code);
+        }
         return products.get(code);
     }
 }

@@ -2,11 +2,10 @@ package database;
 
 import excel.ExcelPlugin;
 import model.Product;
-
 import java.io.File;
 import java.util.ArrayList;
 
-public class ExcelLoadSave implements LoadSaveStrategy {
+public class ExcelLoadSave implements LoadSaveStrategy{
     private String filepath = "src/bestanden/artikel.xls";
     private ExcelPlugin excelPlugin = new ExcelPlugin();
 
@@ -15,7 +14,7 @@ public class ExcelLoadSave implements LoadSaveStrategy {
         ArrayList<Product> products = new ArrayList<Product>();
         try {
             for (ArrayList<String> parameters : excelPlugin.read(new File(filepath))){
-                int code = Integer.parseInt(parameters.get(0));
+                String code = parameters.get(0);
                 String name = parameters.get(1);
                 String group = parameters.get(2);
                 double price = Double.parseDouble(parameters.get(3));

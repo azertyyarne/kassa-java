@@ -11,6 +11,8 @@ public class SettingsOverviewPane extends GridPane {
     private ComboBox<String> comboBoxLoadSave,comboBoxProductDB,comboboxKorting,comboBoxGroup;
     private TextField fieldProcent,fieldBedrag;
     private Label label,labelProcent;
+    private Pane paneHeader,paneBody,paneFooter;
+    private TextArea areaHeaderMessage,areaFooterMessage;
 
 
     public SettingsOverviewPane(){
@@ -19,6 +21,7 @@ public class SettingsOverviewPane extends GridPane {
         this.setHgap(20);
         databaseSettings();
         kortingSettings();
+        kassabonSettings();
     }
 
     private void databaseSettings(){
@@ -69,6 +72,50 @@ public class SettingsOverviewPane extends GridPane {
         });
     }
 
+    private void kassabonSettings(){
+        Label labelKassabon = new Label("Kies kassabon");
+        paneHeader = new VBox();
+        paneHeader.getChildren().add(new Label("Header"));
+        paneBody = new VBox();
+        paneBody.getChildren().add(new Label("Body"));
+        paneFooter = new VBox();
+        paneFooter.getChildren().add(new Label("Footer"));
+        areaHeaderMessage = new TextArea();
+        areaFooterMessage = new TextArea();
+        areaHeaderMessage.setMaxHeight(100);
+        areaHeaderMessage.setMaxWidth(200);
+        areaFooterMessage.setMaxHeight(100);
+        areaFooterMessage.setMaxWidth(200);
+        this.add(labelKassabon,0,3);
+        this.add(paneHeader,1,3);
+        this.add(paneBody,2,3);
+        this.add(paneFooter,3,3);
+    }
+
+    public void addListenerHeader(){
+        Label labelHeaderMessage = new Label("Boodschap:");
+        ((CheckBox) paneHeader.getChildren().get(1)).selectedProperty().addListener((observable, oldValue, newValue) -> {
+            this.getChildren().remove(labelHeaderMessage);
+            this.getChildren().remove(areaHeaderMessage);
+            if (newValue){
+                this.add(labelHeaderMessage,1,4);
+                this.add(areaHeaderMessage,1,5);
+            }
+        });
+    }
+
+    public void addListenerFooter(){
+        Label labelFooterMessage = new Label("Afsluitlijn:");
+        ((CheckBox) paneFooter.getChildren().get(4)).selectedProperty().addListener((observable, oldValue, newValue) -> {
+            this.getChildren().remove(labelFooterMessage);
+            this.getChildren().remove(areaFooterMessage);
+            if (newValue){
+                this.add(labelFooterMessage,3,4);
+                this.add(areaFooterMessage,3,5);
+            }
+        });
+    }
+
     public ComboBox<String> getComboBoxLoadSave() {
         return comboBoxLoadSave;
     }
@@ -89,7 +136,27 @@ public class SettingsOverviewPane extends GridPane {
         return fieldBedrag;
     }
 
+    public TextArea getAreaHeaderMessage() {
+        return areaHeaderMessage;
+    }
+
+    public TextArea getAreaFooterMessage() {
+        return areaFooterMessage;
+    }
+
     public ComboBox<String> getComboBoxGroup() {
         return comboBoxGroup;
+    }
+
+    public Pane getPaneHeader() {
+        return paneHeader;
+    }
+
+    public Pane getPaneBody() {
+        return paneBody;
+    }
+
+    public Pane getPaneFooter() {
+        return paneFooter;
     }
 }

@@ -1,8 +1,7 @@
 package database.template;
 
 import model.Product;
-
-import java.util.List;
+import java.util.*;
 
 public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate {
     @Override
@@ -12,7 +11,7 @@ public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate {
 
     @Override
     protected Product getObject(List<String> parameters) {
-        int code = Integer.parseInt(parameters.get(0));
+        String code = parameters.get(0);
         String name = parameters.get(1);
         String group = parameters.get(2);
         double price = Double.parseDouble(parameters.get(3));
@@ -23,6 +22,6 @@ public class ArtikelTekstLoadSave extends TekstLoadSaveTemplate {
     @Override
     protected String getString(Object o) {
         Product product = (Product) o;
-        return String.format("%d,%s,%s,%f,%d",product.getCode(),product.getName(),product.getGroup(),product.getPrice(),product.getStock());
+        return String.format("%s,%s,%s,%f,%d",product.getCode(),product.getName(),product.getGroup(),product.getPrice(),product.getStock());
     }
 }

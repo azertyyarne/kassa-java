@@ -1,72 +1,99 @@
 package controller;
 
-import model.*;
-import model.observer.Observer;
-import model.observer.ObserverKassaEvents;
-import view.*;
+import model.Kassa;
+import model.observer.ObserverVerkoop;
+import model.observer.ObserverUpdate;
+import model.Product;
+import view.ErrorAlert;
 import view.panels.KassaOverviewPane;
 
-public class KassaOverviewController implements Observer, ObserverKassaEvents {
+public class KassaOverviewController implements ObserverUpdate, ObserverVerkoop {
     private Kassa model;
     private KassaOverviewPane view;
 
     public KassaOverviewController(Kassa model, KassaOverviewPane view){
         this.model = model;
-        model.addObserver(this);
-        model.addObserverAfsluit(this);
+        model.addObserverUpdate(this);
+        model.addObserverVerkoop(this);
         this.view = view;
         this.view.setController(this);
-        view.getFieldProductCode().setOnAction(event -> addProductToShoppingCart());
-        view.onHoldEvent(event -> manageOnHoldCart());
-        view.afsluitenEvent(event -> model.showAfsluitenMenu());
-        view.betalenEvent(event -> model.manageNewEmptyScreen());
-        view.annulerenEvent(event -> model.manageAnnuleer()); // todo
+        setupView();
+    }
+
+    private void setupView(){
         update();
+        view.getFieldProductCode().setOnAction(event -> addProductToCart());
+        view.getButtonPutOnHold().setOnAction(event -> model.putOnHold());
+        view.getButtonFinish().setOnAction(event -> model.afsluitMenu());
+        view.getButtonCancel().setOnAction(event -> {
+            model.cancel();
+            if (model.amountOnHold() > 0){
+                view.showOnHoldMenu();
+                view.setProducts(model.getAllProductsOnHold());
+            }
+            else model.standardMenu();
+        });
+        view.getButtonPay().setOnAction(event -> {
+            model.pay();
+            if (model.amountOnHold() > 0){
+                view.showOnHoldMenu();
+                view.setProducts(model.getAllProductsOnHold());
+            }
+            else model.standardMenu();
+        });
+        view.getButtonGetOnHold().setOnAction(event -> {
+            model.onHoldToActive();
+            view.setProducts(model.getAllProductsVerkoop());
+            model.updateObservers();
+            model.standardMenu();
+        });
+        view.getButtonGetNew().setOnAction(event -> {
+            view.setProducts(model.getAllProductsVerkoop());
+            model.updateObservers();
+            model.standardMenu();
+        });
     }
 
-    private void manageOnHoldCart() {
-        try {
-            model.manageOnHoldCart();
-            view.changeOnHoldBtnText();
-        } catch (Exception e) {
+    private void addProductToCart() {
+        try{
+            String code = view.getFieldProductCode().getText();
+            model.addProductVerkoop(code);
+            view.getFieldProductCode().setText("");
+        }
+        catch (Exception e){
             ErrorAlert.show(e.getMessage());
         }
     }
 
-    private void addProductToShoppingCart() {
+    public void deleteProductOutOfCart(Product product) {
         try {
-            int code = Integer.parseInt(view.getFieldProductCode().getText());
-            model.addProductShoppingCart(code);
-        } catch (Exception e){
-            ErrorAlert.show(e.getMessage());
+            model.deleteProductVerkoop(product);
         }
-    }
-
-    public void deleteProductOutOfShoppingCart(Product product) {
-        try {
-            model.deleteProductShoppingCart(product);
-        } catch (Exception e){
+        catch (Exception e){
             ErrorAlert.show(e.getMessage());
         }
     }
 
     @Override
     public void update() {
-        view.setProducts(model.getAllProductsShoppingCart());
-        view.getLabelTotalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart());
+        view.setProducts(model.getAllProductsVerkoop());
+        view.getLabelPrice().setText(String.format("Totale prijs: %.2f euro\n",model.getTotalPriceVerkoop()));
+        String pricemessage = String.format("Totale prijs: %.2f euro\n",model.getTotalPriceVerkoop());
+        pricemessage += String.format("Totale korting: %.2f euro\n",model.getTotalKortingVerkoop());
+        pricemessage += "------------------------------\n";
+        pricemessage += String.format("Totaal te betalen: %.2f euro",model.getTotalPriceVerkoop() - model.getTotalKortingVerkoop());
+        view.getLabelCosts().setText(pricemessage);
+        view.getButtonPutOnHold().setDisable(!model.ableToPutOnHold());
         view.refresh();
     }
 
     @Override
-    public void showAfsluitenMenu() {
-        view.getLabelFinalPrice().setText("Totale prijs:\t\t"+model.getTotalPriceShoppingCart()+"\nKorting:\t\t\t"+model.getKorting()+"\nPrijs na korting:\t"+model.getFinalPriceShoppingCart());
-        view.afsluitMenu();
+    public void afsluitMenu() {
+        view.showAfsluitMenu();
     }
 
     @Override
-    public void manageNewEmptyScreen() {
-        model.resetProductShoppingCart();
-        view.inputMenu();
-        update();
+    public void standardMenu() {
+        view.showInputMenu();
     }
 }

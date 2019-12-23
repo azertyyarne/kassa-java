@@ -1,10 +1,7 @@
 package view.panels;
 
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -12,32 +9,27 @@ import javafx.scene.layout.GridPane;
 import model.Product;
 
 import java.util.Collection;
-import java.util.List;
 
 public class ProductOverviewPane extends GridPane {
 	private TableView<Product> table;
 
 	public ProductOverviewPane() {
 		this.setPadding(new Insets(5, 5, 5, 5));
-        this.setVgap(5);
-        this.setHgap(5);
-		this.add(new Label("Products:"), 0, 0, 1, 1);
-
 		table = new TableView<>();
-		TableColumn<Product, Integer> colProductcode = new TableColumn<>("Product code");
-		colProductcode.setMinWidth(100);
+		TableColumn<Product, String> colProductcode = new TableColumn<>("Code");
+		colProductcode.setMinWidth(147);
 		colProductcode.setCellValueFactory(new PropertyValueFactory<>("code"));
-		TableColumn<Product, String> colName = new TableColumn<>("Name");
-		colName.setMinWidth(100);
+		TableColumn<Product, String> colName = new TableColumn<>("Naam");
+		colName.setMinWidth(147);
 		colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-		TableColumn<Product, String> colProductgroup = new TableColumn<>("Product group");
-		colProductgroup.setMinWidth(100);
+		TableColumn<Product, String> colProductgroup = new TableColumn<>("Groep");
+		colProductgroup.setMinWidth(148);
 		colProductgroup.setCellValueFactory(new PropertyValueFactory<>("group"));
-		TableColumn<Product, Double> colPrice = new TableColumn<>("Price");
-		colPrice.setMinWidth(100);
+		TableColumn<Product, Double> colPrice = new TableColumn<>("Prijs");
+		colPrice.setMinWidth(148);
 		colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-		TableColumn<Product, Integer> colStock = new TableColumn<>("Stock");
-		colStock.setMinWidth(100);
+		TableColumn<Product, Integer> colStock = new TableColumn<>("Hoeveelheid");
+		colStock.setMinWidth(148);
 		colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
 		table.getColumns().addAll(colProductcode, colName, colProductgroup, colPrice, colStock);
 		this.add(table,0,1);

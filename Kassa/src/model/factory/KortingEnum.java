@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum KortingEnum {
-    GEEN("Geen Korting","geen","model.kortingStrategy.GeenKorting"),
-    GROEP("Groep Korting","groep","model.kortingStrategy.GroepKorting"),
-    DREMPEL("Drempel Korting","drempel","model.kortingStrategy.DrempelKorting"),
-    DUURSTE("Duurste Korting","duurste","model.kortingStrategy.DuursteKorting");
+    GEEN("Geen Korting","geen","model.korting.Geenkorting"),
+    GROEP("Groep Korting","groep","model.korting.Groepkorting"),
+    DREMPEL("Drempel Korting","drempel","model.korting.Drempelkorting"),
+    DUURSTE("Duurste Korting","duurste","model.korting.Duurstekorting");
 
     private final String description,name,className;
 
-    KortingEnum(String description, String name, String className){
+    KortingEnum(String description,String name,String className){
         this.description = description;
         this.name = name;
         this.className = className;

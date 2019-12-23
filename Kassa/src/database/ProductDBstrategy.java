@@ -6,5 +6,5 @@ import java.util.Collection;
 
 public interface ProductDBstrategy {
     Collection<Product> getProducts();
-    Product getProduct(int code);
+    Product getProduct(String code);
 }

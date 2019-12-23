@@ -1,5 +1,5 @@
 package application;
-
+	
 import controller.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,7 +11,7 @@ public class Main extends Application {
 	private SettingsController settingsController;
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage){
 		Kassa kassa = new Kassa();
 
 		KassaView kassaView = new KassaView();
@@ -22,8 +22,9 @@ public class Main extends Application {
 
 		ProductOverviewController productOverviewController = new ProductOverviewController(kassa,kassaView.getProductOverviewPane());
 		KassaOverviewController kassaOverviewController = new KassaOverviewController(kassa,kassaView.getKassaOverviewPane());
+		LogsController logsController = new LogsController(kassa,kassaView.getLogsPane());
 
-		KlantController klantController = new KlantController(kassa,klantView);
+		KlantController klantController = new KlantController(kassa,klantView.getKlantOverviewPane());
 	}
 
 	@Override

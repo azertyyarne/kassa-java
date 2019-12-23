@@ -5,9 +5,7 @@ import database.LoadSaveStrategy;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public abstract class TekstLoadSaveTemplate implements LoadSaveStrategy {
 

@@ -2,23 +2,25 @@ package model;
 
 import database.ProductDB;
 import database.ProductDBstrategy;
-import model.kortingStrategy.KortingStrategy;
-import model.observer.ObserverKassaEvents;
+import model.decorator.DecoratorKassabon;
+import model.korting.KortingStrategy;
 import model.observer.Observable;
-import model.observer.Observer;
+import model.observer.ObserverLogger;
+import model.observer.ObserverUpdate;
+import model.observer.ObserverVerkoop;
+
 import java.util.*;
 
-public class Kassa implements Observable, ObserverKassaEvents {
+public class Kassa implements Observable {
     private ProductDB productDB = new ProductDB();
-    private ShoppingCart shoppingCart = new ShoppingCart();
-    private List<Product> onHoldShoppingCart;
-    private List<Observer> observers = new ArrayList<>();
-    private List<ObserverKassaEvents> observerKassaEvents = new ArrayList<>();
-    private KortingStrategy kortingStrategy;
-
-    public void setKortingStrategy(KortingStrategy kortingStrategy) {
-        this.kortingStrategy = kortingStrategy;
-    }
+    private List<Verkoop> verkopen = new ArrayList<>();
+    private List<ObserverUpdate> observersUpdate = new ArrayList<>();
+    private List<ObserverVerkoop> observersVerkoop = new ArrayList<>();
+    private List<ObserverLogger> observersLogger = new ArrayList<>();
+    private int maxOnHold = 1;
+    private int maxAgeOnHold = 3;
+    private KortingStrategy korting;
+    private DecoratorKassabon kassabon;
 
     public void setProductDB(ProductDBstrategy strategy) {
         productDB.setStrategy(strategy);
@@ -28,111 +30,174 @@ public class Kassa implements Observable, ObserverKassaEvents {
         return productDB;
     }
 
-    public Collection<Product> getProducts(){
+    public void setKorting(KortingStrategy korting) {
+        this.korting = korting;
+    }
+
+    public KortingStrategy getKorting() {
+        return korting;
+    }
+
+    public void setKassabon(DecoratorKassabon kassabon) {
+        this.kassabon = kassabon;
+    }
+
+    public Collection<Product> getProductsDB(){
         return productDB.getProducts();
     }
 
-    public Product getProduct(int code){
+    public Product getProductDB(String code){
         return productDB.getProduct(code);
     }
 
-    public void addObserver(Observer observer){
-        observers.add(observer);
+    @Override
+    public void addObserverUpdate(ObserverUpdate observerUpdate){
+        observersUpdate.add(observerUpdate);
     }
 
-    public void addObserverAfsluit(ObserverKassaEvents observerAfsluit){
-        observerKassaEvents.add(observerAfsluit);
+    @Override
+    public void addObserverVerkoop(ObserverVerkoop observerVerkoop){
+        observersVerkoop.add(observerVerkoop);
     }
 
-    public Collection<Product> getAllProductsShoppingCart() {
-        return shoppingCart.getAllProducts();
+    @Override
+    public void addObserverLogger(ObserverLogger observerLogger){
+        observersLogger.add(observerLogger);
     }
 
-    public Collection<Product> getProductsShoppingCart(){
-        return shoppingCart.getProducts();
+    public List<Product> getAllProductsOnHold() {
+        return getOnHoldVerkoop().getAllProducts();
     }
 
-    public int getQuantityProductShoppingCart(Product product){
-        return shoppingCart.getQuantity(product);
+    public List<Product> getAllProductsVerkoop() {
+        return getVerkoop().getAllProducts();
     }
 
-    public double getTotalPriceShoppingCart(){
-        return shoppingCart.getTotalPrice();
+    public List<Product> getProductsVerkoop(){
+        return getVerkoop().getProducts();
     }
 
-    public double getFinalPriceShoppingCart() {
-        return shoppingCart.getTotalPrice()-getKorting();
+    public int getQuantityProductVerkoop(Product product){
+        return getVerkoop().getQuantity(product);
     }
 
-    public double getKorting(){
-        return kortingStrategy.getKorting(shoppingCart);
+    public double getTotalPriceVerkoop(){
+        return getVerkoop().getTotalPrice();
     }
 
-    public void addProductShoppingCart(int code){
-        Product product = getProduct(code);
-        shoppingCart.add(product);
+    public double getTotalKortingVerkoop(){
+        return getVerkoop().getKorting();
+    }
+
+    public void addProductVerkoop(String code){
+        Product product = getProductDB(code);
+        getVerkoop().add(product);
         updateObservers();
     }
 
-    public void deleteProductShoppingCart(Product product){
-        shoppingCart.delete(product);
+    public void deleteProductVerkoop(Product product){
+        getVerkoop().delete(product);
         updateObservers();
     }
 
-    public void resetProductShoppingCart() {
-        this.shoppingCart = new ShoppingCart();
-        updateObservers();
-    }
-
-    public List<Product> getOnHoldShoppingCart() {
-        return onHoldShoppingCart;
-    }
-
-    public void deleteOnHoldShoppingCart() {
-        this.onHoldShoppingCart = null;
-    }
-
-    public void manageOnHoldCart() {
-        if (onHoldShoppingCart == null) {
-            onHoldShoppingCart = shoppingCart.getAllProducts();
-            shoppingCart = new ShoppingCart();
-        } else {
-            if (shoppingCart.getAllProducts().size() == 0) {
-                shoppingCart = new ShoppingCart();
-                shoppingCart.setProducts(onHoldShoppingCart);
-                onHoldShoppingCart = null;
-            } else {
-                throw new ModelException("Je moet de vorige bestelling eerst afronden vooraleer een oude bestelling terug te zetten");
+    private Verkoop getVerkoop(){
+        for (Verkoop verkoop : verkopen){
+            if (verkoop.getState().equals(verkoop.getActiveState())){
+                return verkoop;
             }
         }
+        Verkoop verkoop = new Verkoop(korting,maxAgeOnHold);
+        verkopen.add(verkoop);
+        return verkoop;
+    }
+
+    private Verkoop getOnHoldVerkoop(){
+        for (Verkoop verkoop : verkopen){
+            if (verkoop.getState().equals(verkoop.getOnholdState())){
+                return verkoop;
+            }
+        }
+        throw new ModelException("Er is geen verkoop on hold");
+    }
+
+    public void putOnHold(){
+        getVerkoop().putOnHold();
         updateObservers();
     }
 
-    public void manageAnnuleer() {
-        for (Product product : shoppingCart.getAllProducts()) {
-            product.moveToStock();
+    public boolean ableToPutOnHold(){
+        return amountOnHold() < maxOnHold;
+    }
+
+    public int amountOnHold(){
+        int amount = 0;
+        for (Verkoop verkoop : verkopen){
+            if (verkoop.getState().equals(verkoop.getOnholdState())){
+                amount++;
+            }
         }
-        manageNewEmptyScreen();
+        return amount;
+    }
+
+    public void pay(){
+        notifyObservers();
+        Verkoop verkoop = getVerkoop();
+        verkoop.pay();
+        print(verkoop);
+        increaseAge();
+        updateObservers();
+    }
+
+    public void cancel(){
+        getVerkoop().cancel();
+        increaseAge();
+        updateObservers();
+    }
+
+    public void onHoldToActive(){
+        for (Verkoop verkoop : verkopen){
+            if (verkoop.getState().equals(verkoop.getOnholdState())){
+                verkoop.activate();
+                break;
+            }
+        }
+    }
+
+    private void print(Verkoop verkoop){
+        System.out.println(kassabon.print(verkoop));
+    }
+
+    private void increaseAge(){
+        for (Verkoop verkoop : verkopen){
+            verkoop.increaseAge();
+        }
     }
 
     @Override
     public void updateObservers() {
-        for (model.observer.Observer observer : observers){
+        for (ObserverUpdate observer : observersUpdate){
             observer.update();
         }
     }
 
     @Override
-    public void showAfsluitenMenu() {
-        for (ObserverKassaEvents observerChangeScreen: observerKassaEvents) {
-            observerChangeScreen.showAfsluitenMenu();
+    public void afsluitMenu() {
+        for (ObserverVerkoop observer : observersVerkoop){
+            observer.afsluitMenu();
         }
     }
 
     @Override
-    public void manageNewEmptyScreen() {
-        for (ObserverKassaEvents observerChangeScreen: observerKassaEvents) {
-            observerChangeScreen.manageNewEmptyScreen();
+    public void standardMenu() {
+        for (ObserverVerkoop observer : observersVerkoop){
+            observer.standardMenu();
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (ObserverLogger observer : observersLogger){
+            observer.log();
         }
     }
 }

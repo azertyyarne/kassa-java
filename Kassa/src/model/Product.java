@@ -1,13 +1,13 @@
 package model;
 
 public class Product {
-    private int code;
+    private String code;
     private String name;
     private String group;
     private double price;
     private int stock;
 
-    public Product(int code, String name, String group, double price, int stock) {
+    public Product(String code, String name, String group, double price, int stock) {
         setCode(code);
         setName(name);
         setGroup(group);
@@ -15,9 +15,7 @@ public class Product {
         setStock(stock);
     }
 
-    private void setCode(int code) throws ModelException {
-        if (code < 0)
-            throw new ModelException("Artikel moet een positieve artikelcode hebben");
+    private void setCode(String code) {
         this.code = code;
     }
 
@@ -33,7 +31,7 @@ public class Product {
         this.group = group;
     }
 
-    private void setPrice(double price) throws ModelException {
+    public void setPrice(double price) throws ModelException {
         if (price < 0)
             throw new ModelException("De prijs moet positief zijn");
         this.price = price;
@@ -43,7 +41,7 @@ public class Product {
         this.stock = stock;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -66,16 +64,12 @@ public class Product {
     @Override
     public boolean equals(Object o){
         if (o instanceof Product){
-            return ((Product) o).getCode() == this.code;
+            return ((Product) o).getCode().equals(code);
         }
         return false;
     }
 
-    public void moveToStock(){
-        stock++;
-    }
-
     public void removeFromStock(){
-        stock--;
+        setStock(stock - 1);
     }
 }

@@ -3,6 +3,8 @@ package database;
 import model.Product;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductDB {
     private ProductDBstrategy strategy;
@@ -19,7 +21,7 @@ public class ProductDB {
         return strategy.getProducts();
     }
 
-    public Product getProduct(int code){
+    public Product getProduct(String code){
         return strategy.getProduct(code);
     }
 
