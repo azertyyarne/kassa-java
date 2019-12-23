@@ -16,8 +16,7 @@ public class KassaOverviewPane extends GridPane {
     private TextField fieldProductCode;
     private KassaOverviewController controller;
     private Button buttonPutOnHold,buttonFinish,buttonCancel,buttonPay,buttonGetOnHold,buttonGetNew;
-    private Label labelPrice;
-    private Label labelCosts;
+    private Label labelPrice,labelCosts,labelHelp;
 
 
     public KassaOverviewPane(){
@@ -52,6 +51,7 @@ public class KassaOverviewPane extends GridPane {
         buttonGetNew = new Button("Nieuwe");
         labelPrice = new Label();
         labelCosts = new Label();
+        labelHelp =  new Label("Klik 2x op een product om het te verwijderen");
 
         showInputMenu();
     }
@@ -63,6 +63,7 @@ public class KassaOverviewPane extends GridPane {
         this.add(labelPrice,4,1);
         this.add(buttonPutOnHold,0,2);
         this.add(buttonFinish,1,2);
+        this.add(labelHelp,5,0);
     }
 
     public void showAfsluitMenu(){
@@ -71,6 +72,7 @@ public class KassaOverviewPane extends GridPane {
         this.add(labelCosts,2,0);
         this.add(buttonCancel,0,1);
         this.add(buttonPay,1,1);
+        this.add(labelHelp,5,0);
     }
 
     public void showOnHoldMenu(){

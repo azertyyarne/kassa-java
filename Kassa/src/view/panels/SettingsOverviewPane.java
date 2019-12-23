@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 public class SettingsOverviewPane extends GridPane {
     private ComboBox<String> comboBoxLoadSave,comboBoxProductDB,comboboxKorting,comboBoxGroup;
     private TextField fieldProcent,fieldBedrag;
-    private Label label,labelProcent;
+    private Label label,labelProcent,labelHelp;
     private Pane paneHeader,paneBody,paneFooter;
     private TextArea areaHeaderMessage,areaFooterMessage;
 
@@ -22,6 +22,8 @@ public class SettingsOverviewPane extends GridPane {
         databaseSettings();
         kortingSettings();
         kassabonSettings();
+        labelHelp = new Label("Alle instellingen worden opgeslagen als de vensters gesloten worden");
+        this.add(labelHelp,0,6,3,1);
     }
 
     private void databaseSettings(){
